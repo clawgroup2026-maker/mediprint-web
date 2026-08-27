@@ -47,6 +47,123 @@
                 text-align: center;
             }
         }
+
+        /* ========================================
+           GALERÍA INSTAGRAM
+        ======================================== */
+
+        .instagram-section .section-heading p a {
+            color: #0799ed;
+            font-weight: 800;
+        }
+
+        .instagram-feed {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .instagram-card {
+            position: relative;
+            display: block;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 16px;
+            background: #eef3f7;
+            border: 1px solid #e5eaf0;
+        }
+
+        .instagram-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .instagram-card-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(17, 24, 39, 0.58);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .instagram-card:hover img {
+            transform: scale(1.045);
+        }
+
+        .instagram-card:hover .instagram-card-overlay {
+            opacity: 1;
+        }
+
+        .instagram-loading,
+        .instagram-feed-error {
+            grid-column: 1 / -1;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+            color: #667085;
+            background: #f7f9fc;
+            border: 1px solid #e5eaf0;
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .instagram-feed-error a {
+            color: #0799ed;
+            font-weight: 800;
+        }
+
+        .instagram-feed-actions {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+        }
+
+        @media (max-width: 900px) {
+            .instagram-feed {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .instagram-feed {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .instagram-card {
+                border-radius: 14px;
+            }
+
+            .instagram-card-overlay {
+                opacity: 1;
+                align-items: flex-end;
+                justify-content: flex-start;
+                background: linear-gradient(
+                    to top,
+                    rgba(17, 24, 39, 0.68),
+                    rgba(17, 24, 39, 0.08) 52%,
+                    rgba(17, 24, 39, 0)
+                );
+            }
+        }
+
     </style>
 </head>
 
@@ -668,7 +785,7 @@
 
         <p class="bridgeclaw-credit">
             Sitio web desarrollado por
-            <a href="#" class="bridgeclaw-link">
+            <a href="https://bridgeclaw.cl/" target="_blank" rel="noopener noreferrer" class="bridgeclaw-link">
                 BRIDGECLAW
             </a>
         </p>
@@ -1015,7 +1132,7 @@ async function loadInstagramFeed() {
             headers: {
                 'Accept': 'application/json'
             },
-            cache: 'no-store'
+            cache: 'no-cache'
         });
 
         if (!response.ok) {
@@ -1035,12 +1152,14 @@ async function loadInstagramFeed() {
                     ? (post.thumbnail_url || post.media_url)
                     : post.media_url;
 
+            if (!media) return '';
+
             const permalink =
                 post.permalink || 'https://www.instagram.com/mediprint_chile/';
 
             const caption =
                 post.caption
-                    ? String(post.caption).trim().slice(0, 120)
+                    ? String(post.caption).trim().replace(/\s+/g, ' ').slice(0, 120)
                     : 'Trabajo realizado por MediPrint';
 
             return `
@@ -1055,6 +1174,7 @@ async function loadInstagramFeed() {
                         src="${escapeHtml(media)}"
                         alt="${escapeHtml(caption)}"
                         loading="lazy"
+                        decoding="async"
                     >
 
                     <span class="instagram-card-overlay">
