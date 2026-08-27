@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quiénes Somos | MediPrint</title>
+
+    <meta name="description"
+        content="Conoce MediPrint, nuestra misión, visión y compromiso con profesionales, centros médicos, empresas y emprendimientos.">
+
+    <link rel="icon" type="image/png" href="images/mediprint-logo.png">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* =========================
+           PÁGINA QUIÉNES SOMOS
+        ========================= */
+
+        .about-page {
+            min-height: 100vh;
+            background: #ffffff;
+        }
+
+        .about-hero {
+            padding: 110px 30px 80px;
+            text-align: center;
+            background: #f7f9fb;
+        }
+
+        .about-hero-content {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .about-eyebrow {
+            display: inline-block;
+            margin-bottom: 16px;
+
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 2px;
+
+            color: #00a8a8;
+        }
+
+        .about-hero h1 {
+            margin: 0 0 24px;
+
+            font-size: clamp(42px, 6vw, 70px);
+            line-height: 1.05;
+
+            color: #17233c;
+        }
+
+        .about-hero h1 span {
+            color: #00a8a8;
+        }
+
+        .about-hero p {
+            max-width: 720px;
+            margin: 0 auto;
+
+            font-size: 18px;
+            line-height: 1.8;
+
+            color: #5f6878;
+        }
+
+
+        /* =========================
+           HISTORIA / PRESENTACIÓN
+        ========================= */
+
+        .about-intro {
+            padding: 100px 30px;
+        }
+
+        .about-intro-container {
+            max-width: 1000px;
+            margin: 0 auto;
+
+            text-align: center;
+        }
+
+        .about-intro span {
+            display: block;
+            margin-bottom: 15px;
+
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 2px;
+
+            color: #00a8a8;
+        }
+
+        .about-intro h2 {
+            margin: 0 0 25px;
+
+            font-size: clamp(32px, 4vw, 48px);
+
+            color: #17233c;
+        }
+
+        .about-intro p {
+            max-width: 800px;
+            margin: 0 auto 18px;
+
+            font-size: 17px;
+            line-height: 1.8;
+
+            color: #5f6878;
+        }
+
+
+        /* =========================
+           MISIÓN Y VISIÓN
+        ========================= */
+
+        .mission-vision {
+            padding: 20px 30px 100px;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 30px;
+
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .mission-card {
+            padding: 45px;
+
+            background: #f7f9fb;
+
+            border: 1px solid #e7ebef;
+            border-radius: 18px;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 20px 45px rgba(0, 0, 0, 0.08);
+        }
+
+        .mission-number {
+            display: block;
+            margin-bottom: 25px;
+
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 2px;
+
+            color: #00a8a8;
+        }
+
+        .mission-card h2 {
+            margin: 0 0 18px;
+
+            font-size: 30px;
+
+            color: #17233c;
+        }
+
+        .mission-card p {
+            margin: 0;
+
+            font-size: 16px;
+            line-height: 1.8;
+
+            color: #5f6878;
+        }
+
+
+        /* =========================
+           VALORES
+        ========================= */
+
+        .values {
+            padding: 100px 30px;
+
+            background: #17233c;
+        }
+
+        .values-heading {
+            max-width: 750px;
+            margin: 0 auto 60px;
+
+            text-align: center;
+        }
+
+        .values-heading span {
+            display: block;
+            margin-bottom: 15px;
+
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 2px;
+
+            color: #55d6d6;
+        }
+
+        .values-heading h2 {
+            margin: 0;
+
+            font-size: clamp(32px, 4vw, 48px);
+
+            color: #ffffff;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 20px;
+
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .value-card {
+            padding: 35px 25px;
+
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.06);
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+        }
+
+        .value-card h3 {
+            margin: 0 0 12px;
+
+            font-size: 20px;
+
+            color: #ffffff;
+        }
+
+        .value-card p {
+            margin: 0;
+
+            font-size: 15px;
+            line-height: 1.6;
+
+            color: #cbd3df;
+        }
+
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .about-cta {
+            padding: 100px 30px;
+
+            text-align: center;
+
+            background: #ffffff;
+        }
+
+        .about-cta-content {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .about-cta span {
+            display: block;
+            margin-bottom: 14px;
+
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 2px;
+
+            color: #00a8a8;
+        }
+
+        .about-cta h2 {
+            margin: 0 0 20px;
+
+            font-size: clamp(32px, 4vw, 48px);
+
+            color: #17233c;
+        }
+
+        .about-cta p {
+            margin: 0 auto 35px;
+
+            font-size: 17px;
+            line-height: 1.7;
+
+            color: #5f6878;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 768px) {
+
+            .about-hero {
+                padding: 80px 20px 60px;
+            }
+
+            .about-intro {
+                padding: 70px 20px;
+            }
+
+            .mission-vision {
+                padding: 10px 20px 70px;
+            }
+
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mission-card {
+                padding: 32px;
+            }
+
+            .values {
+                padding: 70px 20px;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-cta {
+                padding: 70px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="navbar">
+
+        <a href="index.html" class="brand">
+            <img src="images/mediprint-logo.png"
+                 alt="MediPrint Impresión e Identidad">
+        </a>
+
+        <nav>
+            <a href="index.html">INICIO</a>
+            <a href="index.html#productos">PRODUCTOS</a>
+            <a href="index.html#medica">ÁREA MÉDICA</a>
+            <a href="nosotros.html">QUIÉNES SOMOS</a>
+            <a href="index.html#trabajos">TRABAJOS</a>
+            <a href="index.html#contacto">CONTACTO</a>
+        </nav>
+
+        <div class="nav-actions">
+
+            <a href="cotizar.html" class="nav-button">
+                COTIZAR
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <main class="about-page">
+
+        <section class="about-hero">
+
+            <div class="about-hero-content">
+
+                <span class="about-eyebrow">
+                    CONOCE MEDIPRINT
+                </span>
+
+                <h1>
+                    Impresión que representa
+                    <span>tu identidad.</span>
+                </h1>
+
+                <p>
+                    Creamos soluciones gráficas pensadas para profesionales,
+                    centros médicos, empresas y emprendimientos que buscan
+                    comunicar su identidad de manera clara y profesional.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             QUIÉNES SOMOS
+        ========================== -->
+
+        <section class="about-intro">
+
+            <div class="about-intro-container">
+
+                <span>QUIÉNES SOMOS</span>
+
+                <h2>
+                    Más que impresión, soluciones para tu trabajo.
+                </h2>
+
+                <p>
+                    MediPrint es una empresa dedicada a la impresión y
+                    personalización de material gráfico para profesionales,
+                    centros médicos, empresas y emprendimientos.
+                </p>
+
+                <p>
+                    Trabajamos cada proyecto de manera personalizada,
+                    acompañando a nuestros clientes desde la elección del
+                    producto y el diseño hasta la impresión y entrega final.
+                </p>
+
+                <p>
+                    Nuestro propósito es entregar soluciones funcionales,
+                    profesionales y coherentes con la identidad de cada cliente.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             MISIÓN / VISIÓN
+        ========================== -->
+
+        <section class="mission-vision">
+
+            <div class="mission-grid">
+
+                <article class="mission-card">
+
+                    <span class="mission-number">01</span>
+
+                    <h2>Misión</h2>
+
+                    <p>
+                        Entregar soluciones gráficas funcionales y
+                        personalizadas, combinando calidad, atención cercana
+                        y compromiso con las necesidades de cada cliente.
+                    </p>
+
+                </article>
+
+
+                <article class="mission-card">
+
+                    <span class="mission-number">02</span>
+
+                    <h2>Visión</h2>
+
+                    <p>
+                        Ser una empresa reconocida por la confianza, calidad
+                        y atención personalizada en servicios de impresión,
+                        fortaleciendo especialmente nuestra presencia en el
+                        área médica y profesional.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             VALORES
+        ========================== -->
+
+        <section class="values">
+
+            <div class="values-heading">
+
+                <span>NUESTROS VALORES</span>
+
+                <h2>
+                    La forma en que hacemos nuestro trabajo importa.
+                </h2>
+
+            </div>
+
+
+            <div class="values-grid">
+
+                <article class="value-card">
+
+                    <h3>Calidad</h3>
+
+                    <p>
+                        Cuidamos los detalles para entregar productos
+                        profesionales y bien terminados.
+                    </p>
+
+                </article>
+
+
+                <article class="value-card">
+
+                    <h3>Compromiso</h3>
+
+                    <p>
+                        Nos involucramos en cada proyecto buscando responder
+                        a las necesidades reales de nuestros clientes.
+                    </p>
+
+                </article>
+
+
+                <article class="value-card">
+
+                    <h3>Cercanía</h3>
+
+                    <p>
+                        Entregamos una atención directa y personalizada
+                        durante todo el proceso.
+                    </p>
+
+                </article>
+
+
+                <article class="value-card">
+
+                    <h3>Confianza</h3>
+
+                    <p>
+                        Buscamos construir relaciones duraderas mediante
+                        un servicio responsable y transparente.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CTA
+        ========================== -->
+
+        <section class="about-cta">
+
+            <div class="about-cta-content">
+
+                <span>TRABAJEMOS JUNTOS</span>
+
+                <h2>
+                    ¿Tienes un proyecto en mente?
+                </h2>
+
+                <p>
+                    Cuéntanos qué necesitas y te ayudaremos a encontrar
+                    la solución de impresión adecuada para tu proyecto.
+                </p>
+
+                <a href="cotizar.html" class="btn btn-primary">
+                    SOLICITAR COTIZACIÓN
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="footer">
+
+        <div class="footer-brand">
+
+            <strong>MediPrint</strong>
+
+            <p>Impresión e Identidad.</p>
+
+        </div>
+
+
+        <div class="footer-contact">
+
+            <span>CONTACTO</span>
+
+            <a href="https://wa.me/56926218660" target="_blank">
+                WhatsApp →
+            </a>
+
+            <a href="https://www.instagram.com/mediprint_chile/"
+               target="_blank">
+                Instagram →
+            </a>
+
+            <a href="mailto:mediprint.contacto@gmail.com">
+                Correo →
+            </a>
+
+        </div>
+
+
+        <div class="footer-shipping">
+
+            <span>DESPACHOS</span>
+
+            <p>Envíos a todo Chile.</p>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 MediPrint. Todos los derechos reservados.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediPrint | Impresión Médica & Digital</title>
+
+    <meta name="description"
+        content="Impresiones médicas y digitales para profesionales, consultas, centros médicos y empresas. Recetarios, talonarios, credenciales, tarjetas y más. Envíos a todo Chile.">
+
+    <link rel="icon" type="image/png" href="images/mediprint-logo.png">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Ajustes del hero */
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero-content h1,
+        .hero-content > p {
+            text-align: center;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .hero-info {
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+                max-width: 320px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <a href="#inicio" class="brand">
+            <img src="images/mediprint-logo.png" alt="MediPrint Impresión e Identidad">
+        </a>
+
+        <nav>
+            <a href="#inicio">INICIO</a>
+            <a href="#productos">PRODUCTOS</a>
+            <a href="#medica">ÁREA MÉDICA</a>
+            <a href="nosotros.html">QUIÉNES SOMOS</a>
+            <a href="#trabajos">TRABAJOS</a>
+            <a href="#contacto">CONTACTO</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button class="cart-button" id="cartButton" type="button">
+                🛒 <span id="cartCount">0</span>
+            </button>
+
+            <a href="cotizar.html" class="nav-button">
+                COTIZAR
+            </a>
+        </div>
+
+    </header>
+
+
+    <main id="inicio" class="hero">
+
+        <div class="hero-content">
+
+            <span class="eyebrow">IMPRESIÓN E IDENTIDAD</span>
+
+            <h1>
+                Impresiones médicas
+                <span>& digitales.</span>
+            </h1>
+
+            <p>
+                Soluciones gráficas para profesionales, consultas,
+                centros médicos y empresas.
+            </p>
+
+            <div class="hero-actions">
+
+                <a href="#productos" class="btn btn-secondary">
+                    VER PRODUCTOS
+                </a>
+
+                <a
+                    href="https://wa.me/56926218660?text=Hola%20MediPrint%2C%20quiero%20consultar%20el%20estado%20de%20mi%20pedido.%0A%0ANombre%3A%0AN%C2%B0%20de%20pedido%20o%20referencia%3A"
+                    target="_blank"
+                    class="btn btn-primary"
+                >
+                    CONSULTAR MI PEDIDO
+                </a>
+
+            </div>
+
+            <div class="hero-info">
+                <span>✓ Atención personalizada</span>
+                <span>✓ Diseño gráfico</span>
+                <span>✓ Envíos a todo Chile</span>
+            </div>
+
+        </div>
+
+        <div class="hero-visual">
+            <img src="images/mediprint-logo.png" alt="MediPrint">
+        </div>
+
+    </main>
+
+
+    <section id="productos" class="products">
+
+        <div class="section-heading">
+            <span>PRODUCTOS</span>
+            <h2>Soluciones impresas para tu profesión y tu negocio.</h2>
+            <p>
+                Elige lo que necesitas y solicita una cotización personalizada.
+            </p>
+        </div>
+<div class="carousel-controls">
+    <button class="carousel-btn prev" onclick="scrollProducts(-1)">←</button>
+    <button class="carousel-btn next" onclick="scrollProducts(1)">→</button>
+</div>
+        <div class="product-grid">
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="images/recetarios.jpeg" alt="Recetarios personalizados MediPrint">
+                </div>
+
+                <div class="product-content">
+                    <h3>Recetarios</h3>
+
+                    <p>
+                        Recetarios personalizados para profesionales
+                        y centros de salud.
+                    </p>
+
+                    <details class="product-options">
+                        <summary>VER OPCIONES</summary>
+
+                        <div class="product-options-content">
+                            <div class="product-option-group">
+                                <label for="recetarios-formato">Formato</label>
+                                <select id="recetarios-formato" class="product-variant">
+                                    <option value="1/2 Carta">1/2 Carta</option>
+                                </select>
+                            </div>
+
+                            <div class="product-option-group">
+                                <label for="recetarios-cantidad">Cantidad</label>
+                                <select id="recetarios-cantidad" class="product-pack-quantity">
+                                    <option value="100 talonarios">100 talonarios</option>
+                                    <option value="200 talonarios">200 talonarios</option>
+                                    <option value="500 talonarios">500 talonarios</option>
+                                    <option value="1000 talonarios">1000 talonarios</option>
+                                </select>
+                            </div>
+                        </div>
+                    </details>
+
+                    <a href="cotizar.html?producto=Recetarios" class="product-link">
+                        COTIZAR →
+                    </a>
+
+                    <button type="button" class="add-to-cart" data-product="Recetarios">
+                        AGREGAR AL CARRITO
+                    </button>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="images/talonario.jpeg" alt="Talonarios personalizados MediPrint">
+                </div>
+
+                <div class="product-content">
+                    <h3>Talonarios en General</h3>
+
+                    <p>
+                        Talonarios personalizados para distintos usos
+                        profesionales y comerciales.
+                    </p>
+
+                    <details class="product-options">
+                        <summary>VER OPCIONES</summary>
+
+                        <div class="product-options-content">
+                            <label>
+                                Formato
+                                <select class="product-variant">
+                                    <option value="1/2 Carta">1/2 Carta</option>
+                                    <option value="1/4 Carta">1/4 Carta</option>
+                                    <option value="Carta">Carta</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Cantidad
+                                <select class="product-pack-quantity">
+                                    <option value="100 talonarios">100 talonarios</option>
+                                    <option value="200 talonarios">200 talonarios</option>
+                                    <option value="500 talonarios">500 talonarios</option>
+                                    <option value="1000 talonarios">1000 talonarios</option>
+                                </select>
+                            </label>
+                        </div>
+                    </details>
+
+                    <a href="cotizar.html?producto=Talonarios%20en%20General" class="product-link">
+                        COTIZAR →
+                    </a>
+
+                    <button type="button" class="add-to-cart" data-product="Talonarios en General">
+                        AGREGAR AL CARRITO
+                    </button>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="images/carnet-salud.jpeg" alt="Carnet de Salud personalizado MediPrint">
+                </div>
+
+                <div class="product-content">
+                    <h3>Carnet de Salud</h3>
+
+                    <p>
+                        Carnets personalizados para profesionales,
+                        centros médicos y atención de pacientes.
+                    </p>
+
+                    <details class="product-options">
+                        <summary>VER OPCIONES</summary>
+
+                        <div class="product-options-content">
+                            <label>
+                                Modelo
+                                <select class="product-variant">
+                                    <option value="Opción 1">Opción 1</option>
+                                    <option value="Opción 2">Opción 2</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Cantidad
+                                <select class="product-pack-quantity">
+                                    <option value="50 unidades">50 unidades</option>
+                                    <option value="100 unidades">100 unidades</option>
+                                    <option value="200 unidades">200 unidades</option>
+                                    <option value="500 unidades">500 unidades</option>
+                                    <option value="1000 unidades">1000 unidades</option>
+                                </select>
+                            </label>
+                        </div>
+                    </details>
+
+                    <a href="cotizar.html?producto=Carnet%20de%20Salud" class="product-link">
+                        COTIZAR →
+                    </a>
+
+                    <button type="button" class="add-to-cart" data-product="Carnet de Salud">
+                        AGREGAR AL CARRITO
+                    </button>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="images/carnet-veterinario.jpeg" alt="Carnet Veterinario personalizado MediPrint">
+                </div>
+
+                <div class="product-content">
+                    <h3>Carnet Veterinario</h3>
+
+                    <p>
+                        Carnets personalizados para clínicas,
+                        consultas y profesionales veterinarios.
+                    </p>
+
+                    <details class="product-options">
+                        <summary>VER OPCIONES</summary>
+
+                        <div class="product-options-content">
+                            <label>
+                                Formato
+                                <select class="product-variant">
+                                    <option value="Pequeño">Pequeño</option>
+                                    <option value="Carta">Carta</option>
+                                    <option value="Tríptico">Tríptico</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Cantidad
+                                <select class="product-pack-quantity">
+                                    <option value="50 unidades">50 unidades</option>
+                                    <option value="100 unidades">100 unidades</option>
+                                    <option value="200 unidades">200 unidades</option>
+                                    <option value="500 unidades">500 unidades</option>
+                                </select>
+                            </label>
+                        </div>
+                    </details>
+
+                    <a href="cotizar.html?producto=Carnet%20Veterinario" class="product-link">
+                        COTIZAR →
+                    </a>
+
+                    <button type="button" class="add-to-cart" data-product="Carnet Veterinario">
+                        AGREGAR AL CARRITO
+                    </button>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="images/credenciales-pvc.jpeg" alt="Credenciales PVC personalizadas MediPrint">
+                </div>
+
+                <div class="product-content">
+                    <h3>Credenciales</h3>
+
+                    <p>
+                        Credenciales y material identificativo
+                        con diseño personalizado.
+                    </p>
+
+                    <details class="product-options">
+                        <summary>VER OPCIONES</summary>
+
+                        <div class="product-options-content">
+                            <label>
+                                Tipo
+                                <select class="product-variant">
+                                    <option value="Credencial PVC">Credencial PVC</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Cantidad
+                                <select class="product-pack-quantity">
+                                    <option value="10 unidades">10 unidades</option>
+                                    <option value="20 unidades">20 unidades</option>
+                                    <option value="50 unidades">50 unidades</option>
+                                    <option value="100 unidades">100 unidades</option>
+                                    <option value="200 unidades">200 unidades</option>
+                                </select>
+                            </label>
+                        </div>
+                    </details>
+
+                    <a href="cotizar.html?producto=Credenciales" class="product-link">
+                        COTIZAR →
+                    </a>
+
+                    <button type="button" class="add-to-cart" data-product="Credenciales">
+                        AGREGAR AL CARRITO
+                    </button>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="images/tarjetas-presentacion.jpeg" alt="Tarjetas de Presentación personalizadas MediPrint">
+                </div>
+
+                <div class="product-content">
+                    <h3>Tarjetas de Presentación</h3>
+
+                    <p>
+                        Tarjetas profesionales diseñadas para representar
+                        tu marca e identidad.
+                    </p>
+
+                    <details class="product-options">
+                        <summary>VER OPCIONES</summary>
+
+                        <div class="product-options-content">
+                            <label>
+                                Impresión
+                                <select class="product-variant">
+                                    <option value="1 cara">1 cara</option>
+                                    <option value="2 caras">2 caras</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Cantidad
+                                <select class="product-pack-quantity">
+                                    <option value="200 unidades">200 unidades</option>
+                                    <option value="500 unidades">500 unidades</option>
+                                    <option value="1000 unidades">1000 unidades</option>
+                                    <option value="2000 unidades">2000 unidades</option>
+                                    <option value="5000 unidades">5000 unidades</option>
+                                </select>
+                            </label>
+                        </div>
+                    </details>
+
+                    <a href="cotizar.html?producto=Tarjetas%20de%20Presentacion" class="product-link">
+                        COTIZAR →
+                    </a>
+
+                    <button type="button" class="add-to-cart" data-product="Tarjetas de Presentación">
+                        AGREGAR AL CARRITO
+                    </button>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="images/flyers.jpeg" alt="Flyers personalizados MediPrint">
+                </div>
+
+                <div class="product-content">
+                    <h3>Flyers</h3>
+
+                    <p>
+                        Material promocional para comunicar servicios,
+                        promociones e información.
+                    </p>
+
+                    <details class="product-options">
+                        <summary>VER OPCIONES</summary>
+
+                        <div class="product-options-content">
+                            <label>
+                                Tipo
+                                <select class="product-variant">
+                                    <option value="Fotográfico / Opalina">Fotográfico / Opalina</option>
+                                    <option value="Mini Flyer">Mini Flyer</option>
+                                    <option value="Bond">Bond</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Cantidad
+                                <select class="product-pack-quantity">
+                                    <option value="100 unidades">100 unidades</option>
+                                    <option value="200 unidades">200 unidades</option>
+                                    <option value="500 unidades">500 unidades</option>
+                                    <option value="1000 unidades">1000 unidades</option>
+                                    <option value="2000 unidades">2000 unidades</option>
+                                </select>
+                            </label>
+                        </div>
+                    </details>
+
+                    <a href="cotizar.html?producto=Flyers" class="product-link">
+                        COTIZAR →
+                    </a>
+
+                    <button type="button" class="add-to-cart" data-product="Flyers">
+                        AGREGAR AL CARRITO
+                    </button>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="images/magneticos.jpeg" alt="Magnéticos personalizados MediPrint">
+                </div>
+
+                <div class="product-content">
+                    <h3>Magnéticos</h3>
+
+                    <p>
+                        Piezas personalizadas para promoción,
+                        información y recordación de marca.
+                    </p>
+
+                    <details class="product-options">
+                        <summary>VER OPCIONES</summary>
+
+                        <div class="product-options-content">
+                            <label>
+                                Tamaño
+                                <select class="product-variant">
+                                    <option value="Estándar">Estándar</option>
+                                    <option value="Grande">Grande</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Cantidad
+                                <select class="product-pack-quantity">
+                                    <option value="50 unidades">50 unidades</option>
+                                    <option value="100 unidades">100 unidades</option>
+                                    <option value="200 unidades">200 unidades</option>
+                                    <option value="500 unidades">500 unidades</option>
+                                    <option value="1000 unidades">1000 unidades</option>
+                                </select>
+                            </label>
+                        </div>
+                    </details>
+
+                    <a href="cotizar.html?producto=Magneticos" class="product-link">
+                        COTIZAR →
+                    </a>
+
+                    <button type="button" class="add-to-cart" data-product="Magnéticos">
+                        AGREGAR AL CARRITO
+                    </button>
+                </div>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <section id="medica" class="medical">
+
+        <div class="medical-content">
+
+            <span>ESPECIALISTAS EN ÁREA MÉDICA</span>
+
+            <h2>
+                Material gráfico pensado para profesionales de la salud.
+            </h2>
+
+            <p>
+                Trabajamos con médicos, odontólogos, veterinarios,
+                kinesiólogos, podólogos, centros médicos y distintos
+                profesionales que necesitan material personalizado.
+            </p>
+
+            <a href="cotizar.html?producto=Material%20Medico" class="btn btn-primary">
+                COTIZAR MATERIAL MÉDICO
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <section id="trabajos" class="works instagram-section">
+
+        <div class="section-heading">
+            <span>ÚLTIMOS TRABAJOS</span>
+
+            <h2>Mira lo que estamos imprimiendo.</h2>
+
+            <p>
+                Publicaciones recientes de
+                <a href="https://www.instagram.com/mediprint_chile/"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    @mediprint_chile
+                </a>
+            </p>
+        </div>
+
+        <div id="instagramFeed" class="instagram-feed" aria-live="polite">
+            <p class="instagram-loading">Cargando publicaciones de Instagram…</p>
+        </div>
+
+        <div class="instagram-feed-actions">
+            <a href="https://www.instagram.com/mediprint_chile/"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn btn-secondary">
+                VER INSTAGRAM
+            </a>
+        </div>
+
+    </section>
+
+
+    <section id="contacto" class="contact">
+
+        <span>¿TIENES UN PROYECTO?</span>
+
+        <h2>Cuéntanos qué necesitas.</h2>
+
+        <p>
+            Cotiza tu pedido y conversemos sobre cantidades,
+            diseño, terminaciones y despacho.
+        </p>
+
+        <a href="cotizar.html" class="btn btn-primary">
+            SOLICITAR COTIZACIÓN
+        </a>
+
+    </section>
+
+
+    <footer class="footer">
+
+    <div class="footer-brand">
+        <strong>MediPrint</strong>
+        <p>Impresión e Identidad.</p>
+    </div>
+
+    <div class="footer-contact">
+        <span>CONTACTO</span>
+
+        <a href="https://wa.me/56926218660"
+           target="_blank"
+           rel="noopener noreferrer">
+            WhatsApp →
+        </a>
+
+        <a href="mailto:mediprint.contacto@gmail.com">
+            Correo →
+        </a>
+    </div>
+
+    <div class="footer-social">
+        <div class="footer-section">
+    <h4>SÍGUENOS</h4>
+
+    <a href="https://www.instagram.com/mediprint_chile/"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="instagram-link">
+
+        <svg class="instagram-icon"
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37a4 4 0 1 1-4.73-4.73 4 4 0 0 1 4.73 4.73z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+
+        <span>@mediprint_chile</span>
+    </a>
+</div>
+
+    </div>
+
+    <div class="footer-shipping">
+        <span>DESPACHOS</span>
+        <p>Envíos a todo Chile.</p>
+    </div>
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 MediPrint. Todos los derechos reservados.
+        </p>
+
+        <p class="bridgeclaw-credit">
+            Sitio web desarrollado por
+            <a href="#" class="bridgeclaw-link">
+                BRIDGECLAW
+            </a>
+        </p>
+
+    </div>
+
+</footer>
+
+
+<!-- OVERLAY DEL CARRITO -->
+<div class="cart-overlay" id="cartOverlay"></div>
+
+<!-- CARRITO LATERAL -->
+<aside class="cart-panel" id="cartPanel">
+
+    <div class="cart-header">
+        <h2>Tu pedido</h2>
+
+        <button
+            type="button"
+            class="close-cart"
+            id="closeCart"
+            aria-label="Cerrar carrito"
+        >
+            ×
+        </button>
+    </div>
+
+    <div class="cart-items" id="cartItems">
+        <p class="empty-cart">Tu carrito está vacío.</p>
+    </div>
+
+    <div class="cart-footer">
+        <button
+            type="button"
+            class="checkout-whatsapp"
+            id="checkoutWhatsapp"
+        >
+            FINALIZAR POR WHATSAPP
+        </button>
+    </div>
+
+</aside>
+
+<!-- WHATSAPP FLOTANTE -->
+
+<a
+    href="https://wa.me/56926218660?text=Hola%20MediPrint%2C%20quisiera%20hacer%20una%20consulta."
+    class="whatsapp-float"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Contactar a MediPrint por WhatsApp"
+>
+  <svg class="whatsapp-svg"
+     xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 32 32"
+     aria-hidden="true">
+    <path fill="currentColor"
+        d="M19.11 17.21c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.15-.42-2.19-1.35-.81-.72-1.36-1.61-1.52-1.88-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27s.98 2.63 1.11 2.81c.14.18 1.92 2.93 4.65 4.11.65.28 1.16.45 1.56.58.66.21 1.25.18 1.72.11.52-.08 1.6-.65 1.83-1.29.23-.63.23-1.18.16-1.29-.07-.11-.25-.18-.52-.32z"/>
+    <path fill="currentColor"
+        d="M16.03 3C8.84 3 3 8.8 3 15.95c0 2.28.6 4.51 1.74 6.47L3 29l6.76-1.72a13.1 13.1 0 0 0 6.27 1.6h.01C23.22 28.88 29 23.07 29 15.94 29 8.8 23.21 3 16.03 3zm0 23.69a10.9 10.9 0 0 1-5.55-1.52l-.4-.24-4.01 1.02 1.07-3.89-.26-.4a10.68 10.68 0 0 1-1.67-5.72c0-5.94 4.85-10.76 10.82-10.76 5.96 0 10.81 4.82 10.81 10.76 0 5.93-4.85 10.75-10.81 10.75z"/>
+</svg>
+</a>
+
+<script>
+function scrollProducts(direction) {
+    const grid = document.querySelector('.product-grid');
+
+    if (!grid) return;
+
+    grid.scrollBy({
+        left: direction * 405,
+        behavior: 'smooth'
+    });
+}
+
+const cartButton = document.getElementById('cartButton');
+const cartPanel = document.getElementById('cartPanel');
+const cartOverlay = document.getElementById('cartOverlay');
+const closeCart = document.getElementById('closeCart');
+const cartItems = document.getElementById('cartItems');
+const cartCount = document.getElementById('cartCount');
+const checkoutWhatsapp = document.getElementById('checkoutWhatsapp');
+const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+let cart = JSON.parse(localStorage.getItem('mediprintCart')) || [];
+
+/* Compatibilidad con productos guardados antes de agregar las nuevas opciones */
+cart = cart.map(item => ({
+    ...item,
+    option: item.option || 'Estándar',
+    presentationQty: item.presentationQty || 'Cantidad por definir',
+    key: item.key || `${item.name}||${item.option || 'Estándar'}||${item.presentationQty || 'Cantidad por definir'}`
+}));
+
+function saveCart() {
+    localStorage.setItem('mediprintCart', JSON.stringify(cart));
+}
+
+function getCartTotalItems() {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+}
+
+function updateCartCount() {
+    if (cartCount) {
+        cartCount.textContent = getCartTotalItems();
+    }
+}
+
+function openCart() {
+    if (cartPanel) cartPanel.classList.add('open');
+    if (cartOverlay) cartOverlay.classList.add('open');
+}
+
+function closeCartPanel() {
+    if (cartPanel) cartPanel.classList.remove('open');
+    if (cartOverlay) cartOverlay.classList.remove('open');
+}
+
+function addToCart(button) {
+    const productName = button.dataset.product;
+    const productCard = button.closest('.product-card');
+
+    if (!productCard) return;
+
+    const variantSelect = productCard.querySelector('.product-variant');
+    const quantitySelect = productCard.querySelector('.product-pack-quantity');
+    const productImage = productCard.querySelector('.product-image img');
+
+    const option = variantSelect ? variantSelect.value : 'Estándar';
+    const presentationQty = quantitySelect ? quantitySelect.value : 'Cantidad por definir';
+    const imageSrc = productImage
+        ? productImage.getAttribute('src')
+        : 'images/mediprint-logo.png';
+
+    const key = `${productName}||${option}||${presentationQty}`;
+    const existingItem = cart.find(item => item.key === key);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+        existingItem.image = imageSrc;
+    } else {
+        cart.push({
+            key,
+            name: productName,
+            option,
+            presentationQty,
+            quantity: 1,
+            image: imageSrc
+        });
+    }
+
+    saveCart();
+    renderCart();
+    openCart();
+}
+
+function changeQuantity(itemKey, amount) {
+    const item = cart.find(product => product.key === itemKey);
+
+    if (!item) return;
+
+    item.quantity += amount;
+
+    if (item.quantity <= 0) {
+        cart = cart.filter(product => product.key !== itemKey);
+    }
+
+    saveCart();
+    renderCart();
+}
+
+function removeFromCart(itemKey) {
+    cart = cart.filter(item => item.key !== itemKey);
+    saveCart();
+    renderCart();
+}
+
+function escapeHtml(value) {
+    return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+}
+
+function renderCart() {
+    updateCartCount();
+
+    if (!cartItems) return;
+
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<p class="empty-cart">Tu carrito está vacío.</p>';
+        return;
+    }
+
+    cartItems.innerHTML = cart.map(item => {
+        const encodedKey = encodeURIComponent(item.key);
+
+        return `
+            <div class="cart-item">
+
+                <div class="cart-item-main">
+
+                    <img
+                        src="${escapeHtml(item.image || 'images/mediprint-logo.png')}"
+                        alt="${escapeHtml(item.name)}"
+                        class="cart-item-image"
+                    >
+
+                    <div class="cart-item-info">
+                        <strong>${escapeHtml(item.name)}</strong>
+                        <span>${escapeHtml(item.option)}</span>
+                        <small>${escapeHtml(item.presentationQty)}</small>
+                    </div>
+
+                </div>
+
+                <div class="cart-item-controls">
+                    <button
+                        type="button"
+                        class="quantity-btn"
+                        data-action="decrease"
+                        data-key="${encodedKey}"
+                        aria-label="Disminuir cantidad"
+                    >−</button>
+
+                    <span class="cart-item-quantity">${item.quantity}</span>
+
+                    <button
+                        type="button"
+                        class="quantity-btn"
+                        data-action="increase"
+                        data-key="${encodedKey}"
+                        aria-label="Aumentar cantidad"
+                    >+</button>
+
+                    <button
+                        type="button"
+                        class="remove-item"
+                        data-key="${encodedKey}"
+                    >
+                        ELIMINAR
+                    </button>
+                </div>
+
+            </div>
+        `;
+    }).join('');
+
+    document.querySelectorAll('.quantity-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const amount = button.dataset.action === 'increase' ? 1 : -1;
+            const itemKey = decodeURIComponent(button.dataset.key);
+
+            changeQuantity(itemKey, amount);
+        });
+    });
+
+    document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', () => {
+            const itemKey = decodeURIComponent(button.dataset.key);
+            removeFromCart(itemKey);
+        });
+    });
+}
+
+function sendOrderToWhatsapp() {
+    if (cart.length === 0) {
+        alert('Tu carrito está vacío.');
+        return;
+    }
+
+    const orderLines = cart.map(item => {
+        const packsText = item.quantity > 1
+            ? `${item.quantity} pedidos de ${item.presentationQty}`
+            : item.presentationQty;
+
+        return `• ${item.name}
+  Opción: ${item.option}
+  Cantidad: ${packsText}`;
+    }).join('\n\n');
+
+    const message = `Hola MediPrint, quiero cotizar el siguiente pedido:
+
+${orderLines}
+
+¿Me pueden indicar precio, opciones de diseño y despacho?`;
+
+    const whatsappNumber = '56926218660';
+
+    window.open(
+        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
+        '_blank'
+    );
+}
+
+addToCartButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        addToCart(button);
+
+        const originalText = button.textContent;
+
+        button.textContent = 'AGREGADO ✓';
+        button.disabled = true;
+
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.disabled = false;
+        }, 1000);
+    });
+});
+
+if (cartButton) {
+    cartButton.addEventListener('click', openCart);
+}
+
+if (closeCart) {
+    closeCart.addEventListener('click', closeCartPanel);
+}
+
+if (cartOverlay) {
+    cartOverlay.addEventListener('click', closeCartPanel);
+}
+
+if (checkoutWhatsapp) {
+    checkoutWhatsapp.addEventListener('click', sendOrderToWhatsapp);
+}
+
+
+/* ========================================
+   FEED REAL DE INSTAGRAM
+   ======================================== */
+
+async function loadInstagramFeed() {
+    const feed = document.getElementById('instagramFeed');
+
+    if (!feed) return;
+
+    try {
+        const response = await fetch('/api/instagram-feed', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            },
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            throw new Error(`Instagram feed respondió ${response.status}`);
+        }
+
+        const payload = await response.json();
+        const posts = Array.isArray(payload.data) ? payload.data.slice(0, 6) : [];
+
+        if (posts.length === 0) {
+            throw new Error('No hay publicaciones disponibles.');
+        }
+
+        feed.innerHTML = posts.map(post => {
+            const media =
+                post.media_type === 'VIDEO'
+                    ? (post.thumbnail_url || post.media_url)
+                    : post.media_url;
+
+            const permalink =
+                post.permalink || 'https://www.instagram.com/mediprint_chile/';
+
+            const caption =
+                post.caption
+                    ? String(post.caption).trim().slice(0, 120)
+                    : 'Trabajo realizado por MediPrint';
+
+            return `
+                <a
+                    class="instagram-card"
+                    href="${escapeHtml(permalink)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Ver publicación de MediPrint en Instagram"
+                >
+                    <img
+                        src="${escapeHtml(media)}"
+                        alt="${escapeHtml(caption)}"
+                        loading="lazy"
+                    >
+
+                    <span class="instagram-card-overlay">
+                        VER EN INSTAGRAM
+                    </span>
+                </a>
+            `;
+        }).join('');
+
+    } catch (error) {
+        console.error('No se pudo cargar Instagram:', error);
+
+        feed.innerHTML = `
+            <div class="instagram-feed-error">
+                <p>No pudimos cargar las publicaciones en este momento.</p>
+                <a
+                    href="https://www.instagram.com/mediprint_chile/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Ver @mediprint_chile en Instagram →
+                </a>
+            </div>
+        `;
+    }
+}
+
+renderCart();
+loadInstagramFeed();
+</script>
+</body>
+
+</html>
