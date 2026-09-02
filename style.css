@@ -3,6 +3,60 @@
    Versión consolidada
 ======================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+/* ========================================
+   DESIGN TOKENS — MEDIPRINT PREMIUM
+======================================== */
+
+:root {
+    /* Marca */
+    --primary: #0799ed;
+    --primary-dark: #045a90;
+    --primary-darker: #0b2942;
+    --primary-light: #eaf6ff;
+    --primary-electric: #12b6ff;
+    --accent: #ec168c;
+    --navy: #0c2740;
+    --navy-deep: #071522;
+
+    /* Superficies */
+    --surface: #ffffff;
+    --surface-alt: #f6f9fc;
+    --surface-tint: #eef8ff;
+
+    /* Texto */
+    --text: #101a2c;
+    --text-muted: #64748b;
+    --text-soft: #8695a7;
+    --on-dark: #ffffff;
+    --on-dark-muted: rgba(255, 255, 255, 0.72);
+
+    /* Bordes y sombras */
+    --border: #e3e9f0;
+    --border-soft: rgba(11, 41, 66, 0.08);
+    --shadow-sm: 0 4px 14px rgba(12, 39, 64, 0.06);
+    --shadow-md: 0 14px 34px rgba(12, 39, 64, 0.10);
+    --shadow-lg: 0 24px 60px rgba(12, 39, 64, 0.14);
+    --shadow-primary: 0 14px 32px rgba(7, 153, 237, 0.24);
+
+    /* Radios */
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+
+    /* Gradientes premium */
+    --gradient-primary: linear-gradient(135deg, #0aa3f5 0%, #0470c2 100%);
+    --gradient-electric: linear-gradient(120deg, #12b6ff 0%, #0799ed 45%, #045a90 100%);
+    --gradient-navy: linear-gradient(160deg, #0c2740 0%, #071522 100%);
+    --gradient-hero-bg: radial-gradient(circle at 12% -10%, rgba(18, 182, 255, 0.10), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(7, 153, 237, 0.08), transparent 45%),
+        linear-gradient(180deg, #fbfdff 0%, #f4f9fd 100%);
+
+    --font-display: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
 /* ========================================
    BASE
 ======================================== */
@@ -18,10 +72,21 @@ html {
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff;
-    color: #172033;
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--text);
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .brand,
+.nav-button, .btn, .product-tab {
+    font-family: var(--font-display);
+}
+
+:focus-visible {
+    outline: 3px solid rgba(7, 153, 237, 0.35);
+    outline-offset: 2px;
 }
 
 a {
@@ -2234,5 +2299,642 @@ img {
     .product-card {
         flex-basis: 92%;
         width: 92%;
+    }
+}
+
+/* ==================================================================
+   MEDIPRINT — CAPA DE ELEVACIÓN VISUAL PREMIUM
+   (se aplica al final de la cascada; no se elimina ni renombra
+   ninguna clase/ID usada por el JavaScript existente)
+================================================================== */
+
+/* -------------------- HEADER -------------------- */
+
+.navbar {
+    padding: 0 5%;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border-bottom: 1px solid var(--border-soft);
+    box-shadow: 0 1px 0 rgba(12, 39, 64, 0.02), 0 12px 30px -20px rgba(12, 39, 64, 0.35);
+}
+
+.brand {
+    width: 176px;
+    transition: transform 0.25s ease;
+}
+
+.brand:hover {
+    transform: translateY(-1px);
+}
+
+.navbar nav a {
+    position: relative;
+    letter-spacing: 0.4px;
+    padding: 6px 0;
+}
+
+.navbar nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: -2px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--gradient-primary);
+    transition: right 0.25s ease;
+}
+
+.navbar nav a:hover::after {
+    right: 0;
+}
+
+.nav-button {
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-primary);
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.6px;
+}
+
+.nav-button:hover {
+    box-shadow: 0 18px 36px rgba(7, 153, 237, 0.32);
+}
+
+.cart-button {
+    border-radius: var(--radius-sm);
+    background: var(--surface-tint);
+    border: 1px solid rgba(7, 153, 237, 0.16);
+}
+
+.cart-button:hover {
+    background: var(--primary-light);
+    border-color: rgba(7, 153, 237, 0.4);
+    box-shadow: var(--shadow-sm);
+}
+
+#cartCount {
+    background: var(--accent);
+    box-shadow: 0 4px 12px rgba(236, 22, 140, 0.35);
+    border: 2px solid #ffffff;
+}
+
+/* -------------------- HERO -------------------- */
+
+.hero {
+    background: var(--gradient-hero-bg);
+    overflow: hidden;
+}
+
+.hero::after {
+    width: 620px;
+    height: 620px;
+    right: -260px;
+    top: -120px;
+    background: var(--gradient-electric);
+    opacity: 0.08;
+    filter: blur(4px);
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    left: -180px;
+    bottom: -180px;
+    border-radius: 50%;
+    background: var(--gradient-electric);
+    opacity: 0.05;
+    z-index: 1;
+}
+
+.eyebrow {
+    position: relative;
+    padding-left: 26px;
+    letter-spacing: 3.5px;
+}
+
+.eyebrow::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 2px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+}
+
+.hero h1 {
+    letter-spacing: -3.5px;
+    color: var(--text);
+}
+
+.hero h1 span {
+    background: var(--gradient-electric);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-content > p {
+    color: var(--text-muted);
+}
+
+.hero-info {
+    padding-top: 4px;
+}
+
+.hero-info span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    color: var(--text);
+    font-weight: 700;
+}
+
+.hero-visual {
+    padding: 30px;
+}
+
+.hero-visual img {
+    padding: 34px;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+/* -------------------- BOTONES -------------------- */
+
+.btn-primary {
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-primary);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 20px 42px rgba(7, 153, 237, 0.32);
+}
+
+.btn-secondary {
+    background: var(--surface);
+    border-color: var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.medical .btn-primary {
+    background: #ffffff;
+    color: var(--primary-dark);
+    box-shadow: 0 14px 32px rgba(4, 20, 34, 0.28);
+}
+
+/* -------------------- ENCABEZADOS DE SECCIÓN -------------------- */
+
+.section-heading > span {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-heading > span::before {
+    content: "";
+    width: 16px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--gradient-primary);
+}
+
+/* -------------------- AVISO COMERCIAL -------------------- */
+
+.catalog-commercial-notice {
+    background: var(--surface-tint);
+    border-color: rgba(7, 153, 237, 0.16);
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius-md);
+}
+
+/* -------------------- SELECTOR DE CATEGORÍAS -------------------- */
+
+.product-tabs {
+    padding: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    width: fit-content;
+    max-width: 100%;
+}
+
+.product-tab {
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+}
+
+.product-tab:hover {
+    color: var(--primary-dark);
+    background: var(--surface-tint);
+    transform: none;
+}
+
+.product-tab.active,
+.product-tab[aria-selected="true"] {
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-primary);
+}
+
+@media (max-width: 600px) {
+    .product-tabs {
+        width: 100%;
+        background: var(--surface);
+    }
+}
+
+.carousel-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    color: var(--primary-dark);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.carousel-btn:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
+
+/* -------------------- CARDS DE PRODUCTOS -------------------- */
+
+.products {
+    background: var(--surface-alt);
+}
+
+.product-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(7, 153, 237, 0.28);
+}
+
+.product-image {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    position: relative;
+}
+
+.product-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(11,41,66,0) 65%, rgba(11,41,66,0.18) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-image::after {
+    opacity: 1;
+}
+
+.product-image img {
+    transition: transform 0.45s cubic-bezier(.2,.8,.2,1);
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.045);
+}
+
+.product-content h3 {
+    color: var(--text);
+    letter-spacing: -0.3px;
+}
+
+.product-options {
+    border-color: rgba(7, 153, 237, 0.16);
+    background: var(--surface-tint);
+    border-radius: var(--radius-md);
+}
+
+.product-options summary {
+    color: var(--primary-dark);
+    background: transparent;
+    border-radius: var(--radius-md);
+}
+
+.product-options[open] summary {
+    background: rgba(7, 153, 237, 0.08);
+}
+
+.product-options summary::after {
+    color: var(--primary);
+}
+
+.product-option-group select,
+.product-options-content > label select {
+    border-color: var(--border);
+    background-color: var(--surface);
+}
+
+.product-option-group select:focus,
+.product-options-content > label select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(7, 153, 237, 0.14);
+}
+
+.calculated-price {
+    background: linear-gradient(120deg, rgba(7,153,237,0.10), rgba(18,182,255,0.06));
+    border: 1px solid rgba(7, 153, 237, 0.16);
+    border-radius: var(--radius-sm);
+}
+
+.calculated-price strong {
+    color: var(--primary-dark);
+}
+
+.extra-choice input {
+    accent-color: var(--primary);
+}
+
+.product-card .add-to-cart,
+.card-actions .add-to-cart {
+    background: var(--gradient-primary);
+    box-shadow: 0 10px 22px rgba(7, 153, 237, 0.22);
+    border-radius: var(--radius-sm);
+}
+
+.product-card .add-to-cart:hover {
+    box-shadow: 0 14px 28px rgba(7, 153, 237, 0.3);
+}
+
+.product-card .add-to-cart:disabled {
+    background: #9fd4f4;
+    box-shadow: none;
+}
+
+.product-card-actions .product-link {
+    border-radius: var(--radius-sm);
+    border-color: rgba(7, 153, 237, 0.28);
+    color: var(--primary-dark);
+    font-weight: 800;
+}
+
+.product-card-actions .product-link:hover {
+    background: var(--surface-tint);
+    text-decoration: none;
+}
+
+/* Imagen del Pasaporte de Salud HappyClaws — realce premium */
+.product-image img[src$="pasaporte-salud.png"] {
+    background: linear-gradient(135deg, var(--surface-tint) 0%, #ffffff 100%);
+}
+
+/* -------------------- TARJETAS BRIDGECLAW -------------------- */
+
+.web-service-card {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.web-service-card .product-image {
+    background: var(--gradient-navy);
+    position: relative;
+    overflow: hidden;
+}
+
+.web-service-card .product-image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 26px 26px;
+    opacity: 0.5;
+}
+
+.web-service-card .product-image::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    right: -80px;
+    top: -80px;
+    background: radial-gradient(circle, rgba(18,182,255,0.35), transparent 70%);
+    opacity: 1;
+}
+
+.bridgeclaw-mark {
+    position: relative;
+    z-index: 2;
+}
+
+.bridgeclaw-mark small {
+    color: var(--primary-electric);
+}
+
+.web-service-card {
+    background: linear-gradient(180deg, #ffffff 0%, #fbfeff 100%);
+}
+
+.web-service-card .product-content h3 {
+    color: var(--navy);
+}
+
+.web-service-price {
+    color: var(--primary-dark);
+}
+
+.web-service-card a.add-to-cart,
+.web-service-card .add-to-cart {
+    background: var(--gradient-navy);
+    box-shadow: 0 14px 28px rgba(7, 21, 34, 0.28);
+}
+
+.web-service-card .product-link {
+    color: var(--navy);
+    border-color: rgba(11, 41, 66, 0.24);
+}
+
+/* -------------------- ÁREA MÉDICA -------------------- */
+
+.medical {
+    background: var(--gradient-electric);
+}
+
+.medical::after {
+    border-color: rgba(255,255,255,0.10);
+}
+
+.medical::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 15% 100%, rgba(255,255,255,0.10), transparent 45%);
+    pointer-events: none;
+}
+
+/* -------------------- TRABAJOS / INSTAGRAM -------------------- */
+
+.instagram-card {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.3s ease;
+}
+
+.instagram-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* -------------------- CONTACTO -------------------- */
+
+.contact {
+    background: var(--surface-alt);
+    position: relative;
+}
+
+.contact > span {
+    color: var(--accent);
+}
+
+/* -------------------- FOOTER -------------------- */
+
+.footer {
+    background: var(--gradient-navy);
+    position: relative;
+}
+
+.footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(18,182,255,0.5), transparent);
+}
+
+.footer-brand strong {
+    background: var(--gradient-electric);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.bridgeclaw-link {
+    color: var(--primary-electric);
+    opacity: 1;
+}
+
+.bridgeclaw-link:hover {
+    opacity: 0.75;
+}
+
+/* -------------------- CARRITO -------------------- */
+
+.cart-panel {
+    box-shadow: -20px 0 50px rgba(12, 39, 64, 0.22);
+}
+
+.cart-header {
+    border-bottom-color: var(--border);
+}
+
+.quantity-btn {
+    border-color: var(--border);
+    border-radius: var(--radius-sm);
+}
+
+.quantity-btn:hover {
+    background: var(--surface-tint);
+    border-color: var(--primary);
+}
+
+.remove-item {
+    border-radius: var(--radius-sm);
+    background: #fbeaf2;
+    color: var(--accent);
+}
+
+.remove-item:hover {
+    background: #f6d3e4;
+}
+
+.cart-summary {
+    background: var(--surface-tint);
+    border-color: rgba(7, 153, 237, 0.16);
+    border-radius: var(--radius-md);
+}
+
+.cart-summary-total {
+    color: var(--primary-dark) !important;
+}
+
+.checkout-whatsapp {
+    background: #25d366;
+    border-radius: var(--radius-sm);
+}
+
+.checkout-whatsapp:hover {
+    background: #1fbd59;
+}
+
+/* -------------------- WHATSAPP FLOTANTE -------------------- */
+
+.whatsapp-float {
+    box-shadow: 0 12px 30px rgba(37, 211, 102, 0.38);
+}
+
+.whatsapp-float:hover {
+    box-shadow: 0 16px 38px rgba(37, 211, 102, 0.46);
+}
+
+/* -------------------- PÁGINAS LEGAL / NOSOTROS -------------------- */
+
+.legal-card,
+.mission-card,
+.value-card {
+    box-shadow: var(--shadow-sm);
+}
+
+.legal-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.legal-intro::before {
+    background: var(--gradient-primary);
+}
+
+/* -------------------- ACCESIBILIDAD / SCROLLBAR -------------------- */
+
+::selection {
+    background: rgba(7, 153, 237, 0.22);
+    color: var(--text);
+}
+
+/* -------------------- RESPONSIVE FINAL PREMIUM -------------------- */
+
+@media (max-width: 768px) {
+    .hero-visual img {
+        padding: 22px;
+    }
+
+    .navbar {
+        background: rgba(255, 255, 255, 0.92);
     }
 }
