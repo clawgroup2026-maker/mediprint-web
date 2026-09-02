@@ -924,11 +924,11 @@
 <!-- OVERLAY DEL CARRITO -->
 <div class="cart-overlay" id="cartOverlay"></div>
 
-<!-- CARRITO LATERAL -->
-<aside class="cart-panel" id="cartPanel">
+<!-- CARRITO (MODAL CENTRADO) -->
+<aside class="cart-panel" id="cartPanel" role="dialog" aria-modal="true" aria-labelledby="cartHeading">
 
     <div class="cart-header">
-        <h2>Tu pedido</h2>
+        <h2 id="cartHeading">Tu pedido</h2>
 
         <button
             type="button"
@@ -1285,11 +1285,13 @@ function getCartTotals() {
 function openCart() {
     if (cartPanel) cartPanel.classList.add('open');
     if (cartOverlay) cartOverlay.classList.add('open');
+    document.body.classList.add('cart-open');
 }
 
 function closeCartPanel() {
     if (cartPanel) cartPanel.classList.remove('open');
     if (cartOverlay) cartOverlay.classList.remove('open');
+    document.body.classList.remove('cart-open');
 }
 
 function addToCart(button) {
@@ -1523,6 +1525,12 @@ if (cartOverlay) {
 if (checkoutWhatsapp) {
     checkoutWhatsapp.addEventListener('click', sendOrderToWhatsapp);
 }
+
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && cartPanel?.classList.contains('open')) {
+        closeCartPanel();
+    }
+});
 
 
 /* ========================================
