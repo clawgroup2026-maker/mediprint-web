@@ -587,6 +587,306 @@ img {
 }
 
 /* ==================================================
+   OPTIMIZACIÓN COMERCIAL Y RESPONSIVE FINAL
+================================================== */
+
+.catalog-commercial-notice {
+    max-width: 920px;
+    margin: 24px auto 4px;
+    padding: 15px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 18px;
+    flex-wrap: wrap;
+    border: 1px solid rgba(7, 153, 237, 0.2);
+    border-radius: 12px;
+    background: #eef9ff;
+    color: #405261;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.catalog-commercial-notice strong {
+    color: #087da9;
+    font-weight: 900;
+}
+
+.product-card {
+    border-color: #dce5ec;
+    box-shadow: 0 8px 24px rgba(22, 55, 78, 0.055);
+}
+
+.product-content {
+    padding: 24px;
+}
+
+.product-content h3 {
+    min-height: 54px;
+    margin-bottom: 8px;
+    color: #152331;
+    font-size: 21px;
+    line-height: 1.28;
+}
+
+.product-content > p:not(.product-commercial-note) {
+    min-height: 76px;
+    margin-bottom: 16px;
+    color: #475467;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.product-content .product-commercial-note {
+    min-height: 0;
+    margin: 0 0 8px;
+    color: #667785;
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.product-card-actions {
+    display: grid;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.product-card-actions .product-link,
+.product-card-actions .add-to-cart {
+    min-height: 44px;
+    margin: 0;
+}
+
+.product-card-actions .product-link {
+    justify-content: center;
+    padding: 10px 12px;
+    border: 1px solid rgba(24, 139, 168, 0.32);
+    border-radius: 10px;
+}
+
+.product-card-actions .add-to-cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+}
+
+.product-grid {
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+}
+
+.cart-button {
+    min-width: 72px;
+    min-height: 44px;
+    gap: 7px;
+    padding: 8px 11px;
+    border: 1px solid #dce5ec;
+    border-radius: 10px;
+    background: #f7fbfd;
+    color: #172033;
+}
+
+.cart-button:hover {
+    border-color: #0799ed;
+    background: #eef9ff;
+}
+
+.cart-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.cart-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
+#cartCount {
+    top: -7px;
+    right: -7px;
+    min-width: 22px;
+    height: 22px;
+    background: #ec168c;
+    box-shadow: 0 3px 10px rgba(236, 22, 140, 0.28);
+}
+
+#cartCount.is-empty {
+    display: none;
+}
+
+.cart-panel {
+    width: 430px;
+    max-width: min(94vw, 430px);
+}
+
+.cart-item {
+    padding-right: 82px;
+}
+
+.cart-item-info span,
+.cart-item-info small {
+    display: block;
+    margin-top: 3px;
+    color: #5b6b78;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.cart-item-info > strong:last-child {
+    margin-top: 8px;
+    color: #116f87;
+}
+
+.cart-summary {
+    margin-top: 22px;
+    padding: 16px;
+    border: 1px solid #d9edf5;
+    border-radius: 12px;
+    background: #f4fbfe;
+}
+
+.cart-summary > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 5px 0;
+    color: #425466;
+    font-size: 13px;
+}
+
+.cart-summary-total {
+    margin-top: 7px;
+    padding-top: 11px !important;
+    border-top: 1px solid #cce7f1;
+    color: #0e6f8d !important;
+    font-size: 15px !important;
+}
+
+.cart-summary small {
+    display: block;
+    margin-top: 11px;
+    color: #687985;
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.checkout-whatsapp {
+    min-height: 48px;
+    background: #25d366;
+    font-weight: 900;
+    letter-spacing: 0.35px;
+}
+
+.checkout-whatsapp:hover {
+    background: #1fbd59;
+}
+
+@media (max-width: 768px) {
+    .products {
+        padding: 64px 5% 72px;
+    }
+
+    .catalog-commercial-notice {
+        align-items: flex-start;
+        margin-top: 20px;
+        padding: 14px;
+        flex-direction: column;
+        gap: 5px;
+        text-align: left;
+        font-size: 12px;
+    }
+
+    .product-tabs {
+        padding: 0;
+    }
+
+    .product-card {
+        flex-basis: 88%;
+        width: 88%;
+    }
+
+    .product-content {
+        padding: 20px;
+    }
+
+    .product-content h3,
+    .product-content > p:not(.product-commercial-note) {
+        min-height: 0;
+    }
+
+    .product-content h3 {
+        font-size: 20px;
+    }
+
+    .product-content > p:not(.product-commercial-note) {
+        font-size: 14px;
+    }
+
+    .product-pack-quantity {
+        font-size: 12px !important;
+    }
+
+    .nav-actions {
+        gap: 7px;
+    }
+
+    .cart-button {
+        min-width: 44px;
+        width: 44px;
+        padding: 7px;
+    }
+
+    .cart-label {
+        display: none;
+    }
+
+    .nav-button {
+        padding: 10px 13px;
+    }
+
+    .cart-panel {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .cart-items {
+        padding: 18px;
+    }
+
+    .cart-footer {
+        padding: 14px 18px calc(14px + env(safe-area-inset-bottom));
+    }
+
+    .whatsapp-float {
+        right: 14px;
+        bottom: calc(14px + env(safe-area-inset-bottom));
+        width: 52px;
+        height: 52px;
+    }
+}
+
+@media (max-width: 390px) {
+    .brand {
+        width: 120px;
+    }
+
+    .nav-button {
+        padding: 9px 10px;
+        font-size: 10px;
+    }
+
+    .product-card {
+        flex-basis: 92%;
+        width: 92%;
+    }
+}
+
+/* ==================================================
    PESTAÑAS DE PRODUCTOS Y SERVICIOS WEB
 ================================================== */
 
@@ -741,6 +1041,7 @@ img {
     max-width: 1300px;
     margin: 0 auto;
     display: flex;
+    align-items: flex-start;
     flex-wrap: nowrap;
     gap: 25px;
     overflow-x: auto;
@@ -1553,18 +1854,20 @@ img {
 }
 
 .product-card {
-    max-width: 380px;
+    max-width: none;
     background: #ffffff;
     border: 1px solid #e5eaf0;
     border-radius: 14px;
     overflow: hidden;
     transition: 0.25s ease;
-    flex: 0 0 380px;
-    width: 380px;
+    flex: 0 0 calc((100% - 50px) / 3);
+    width: calc((100% - 50px) / 3);
     scroll-snap-align: start;
+    scroll-snap-stop: always;
+    align-self: flex-start;
     display: flex;
     flex-direction: column;
-    min-height: 690px;
+    min-height: 0;
 }
 
 .product-content {
@@ -1642,6 +1945,13 @@ img {
 /* ========================================
    AJUSTE RESPONSIVE FINAL DEL CARRUSEL
 ======================================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .product-card {
+        flex-basis: calc((100% - 25px) / 2);
+        width: calc((100% - 25px) / 2);
+    }
+}
 
 @media (max-width: 768px) {
     .product-card {
@@ -1844,5 +2154,85 @@ img {
         flex-direction: column;
         align-items: flex-start;
         gap: 6px;
+    }
+}
+
+/* Ajustes finales: mantener estas reglas al cierre de la cascada */
+.product-card {
+    border-color: #dce5ec;
+    box-shadow: 0 8px 24px rgba(22, 55, 78, 0.055);
+}
+
+.product-content {
+    padding: 24px;
+}
+
+.cart-button {
+    min-width: 72px;
+    min-height: 44px;
+    gap: 7px;
+    padding: 8px 11px;
+    border: 1px solid #dce5ec;
+    border-radius: 10px;
+    background: #f7fbfd;
+}
+
+#cartCount {
+    top: -7px;
+    right: -7px;
+    min-width: 22px;
+    height: 22px;
+    background: #ec168c;
+}
+
+#cartCount.is-empty {
+    display: none;
+}
+
+.cart-panel {
+    width: 430px;
+    max-width: min(94vw, 430px);
+}
+
+.checkout-whatsapp {
+    min-height: 48px;
+    background: #25d366;
+}
+
+@media (max-width: 768px) {
+    .product-card {
+        flex-basis: 88%;
+        width: 88%;
+    }
+
+    .product-content {
+        padding: 20px;
+    }
+
+    .product-content h3,
+    .product-content > p:not(.product-commercial-note) {
+        min-height: 0;
+    }
+
+    .cart-button {
+        min-width: 44px;
+        width: 44px;
+        padding: 7px;
+    }
+
+    .cart-label {
+        display: none;
+    }
+
+    .cart-panel {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 390px) {
+    .product-card {
+        flex-basis: 92%;
+        width: 92%;
     }
 }

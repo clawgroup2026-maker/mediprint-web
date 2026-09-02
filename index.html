@@ -261,8 +261,10 @@
         </nav>
 
         <div class="nav-actions">
-            <button class="cart-button" id="cartButton" type="button">
-                🛒 <span id="cartCount">0</span>
+            <button class="cart-button" id="cartButton" type="button" aria-label="Abrir carrito">
+                <span class="cart-icon" aria-hidden="true">🛒</span>
+                <span class="cart-label">Carrito</span>
+                <span id="cartCount" aria-live="polite">0</span>
             </button>
 
             <a href="cotizar.html" class="nav-button">
@@ -328,6 +330,11 @@
             <p>
                 Elige lo que necesitas y solicita una cotización personalizada.
             </p>
+        </div>
+        <div class="catalog-commercial-notice" role="note">
+            <strong>Información comercial</strong>
+            <span>Precios netos. IVA y despacho se calculan por separado.</span>
+            <span>Los valores de productos personalizados están sujetos a confirmación según diseño, terminaciones y cantidad.</span>
         </div>
         <div class="product-tabs" role="tablist" aria-label="Categorías de productos">
             <button class="product-tab active" type="button" role="tab" aria-selected="true" data-category="printed">
@@ -946,8 +953,15 @@ function scrollProducts(direction) {
 
     if (!grid) return;
 
+    const firstCard = grid.querySelector('.product-card');
+    if (!firstCard) return;
+
+    const gridStyles = window.getComputedStyle(grid);
+    const gap = parseFloat(gridStyles.columnGap || gridStyles.gap) || 0;
+    const scrollDistance = firstCard.getBoundingClientRect().width + gap;
+
     grid.scrollBy({
-        left: direction * 405,
+        left: direction * scrollDistance,
         behavior: 'smooth'
     });
 }
@@ -955,13 +969,13 @@ function scrollProducts(direction) {
 /* Catálogo y precios indicados por MediPrint */
 const productCatalog = [
     {
-        name: 'Recetarios Médicos', image: 'images/recetarios.jpeg', description: 'Recetarios personalizados para profesionales y centros de salud.',
+        name: 'Recetarios Médicos', image: 'images/recetarios.jpeg', description: 'Recetarios personalizados para profesionales y centros de salud.', unitLabel: 'talonarios',
         specs: 'Papel bond 80 Gr. / respaldo dúplex 300 Gr. / full color.',
         variants: { '1/2 Carta': [[2,16000],[5,30000],[10,46000],[20,70000],[50,140000],[100,220000],[200,350000]] },
         extras: [['Prepicado',10],['Foliado',10],['Impresión 2 caras',30],['Diseño de tapa',10]]
     },
     {
-        name: 'Talonarios', image: 'images/talonario.jpeg', description: 'Talonarios personalizados para distintos usos profesionales y comerciales.',
+        name: 'Talonarios', image: 'images/talonario.jpeg', description: 'Talonarios personalizados para distintos usos profesionales y comerciales.', unitLabel: 'talonarios',
         specs: 'Papel bond 80 Gr. / respaldo dúplex 300 Gr. / full color, tamaño carta o media carta.',
         variants: {
             '100 hojas 1/2 carta': [[2,16000],[4,28000],[10,46000],[20,70000],[50,140000],[100,220000],[200,350000]],
@@ -991,8 +1005,8 @@ const productCatalog = [
         name: 'Magnéticos', image: 'images/magneticos.jpeg', description: 'Piezas magnéticas personalizadas para promoción y recordación de marca.',
         specs: 'Impresión en papel fotográfico adhesivo, full color, montado sobre lámina magnética de 0,4 mm.',
         variants: {
-            'Estándar · 5 cm x 5,5 cm': [[100,16000],[300,33000],[500,50000],[1000,85000],[2000,150000],[3000,300000]],
-            'Grande · 10 cm x 5,5 cm': [[100,28000],[300,60000],[500,85000],[1000,150000],[2000,250000],[3000,500000]]
+            'Estándar · 5 cm x 5,5 cm': [[100,16000],[300,33000],[500,50000],[1000,85000],[2000,150000],[3000,210000]],
+            'Grande · 10 cm x 5,5 cm': [[100,28000],[300,60000],[500,85000],[1000,150000],[2000,250000],[3000,360000]]
         },
         extras: [['Termolaminado',60]]
     },
@@ -1037,7 +1051,7 @@ const productCatalog = [
         features: 'Secciones a medida, diseño adaptable, contacto directo y estructura profesional.'
     },
     {
-        name: 'Tienda Online', category: 'web', webService: true,
+        name: 'Web Ecommerce', category: 'web', webService: true,
         description: 'E-commerce preparado para exhibir productos y recibir pedidos o ventas online.',
         priceLabel: 'A cotizar',
         features: 'Catálogo, carrito, integración de contacto y experiencia optimizada para móviles.'
@@ -1049,11 +1063,12 @@ function money(value) {
 }
 
 function formatPriceOption(product, qty, price) {
-    if (product.packPricing) {
-        const packName = Number(qty) === 1 ? '1 unidad' : `Pack ${qty} unidades`;
-        return `${packName} — ${money(price)} total + IVA`;
-    }
-    return `${qty} x ${money(price)} + IVA`;
+    const unitLabel = product.unitLabel || 'unidades';
+    const singularLabel = unitLabel === 'talonarios' ? 'talonario' : 'unidad';
+    const quantityLabel = Number(qty) === 1
+        ? `1 ${singularLabel}`
+        : `${product.packPricing ? 'Pack ' : ''}${qty} ${unitLabel}`;
+    return `${quantityLabel} — ${money(price)} total + IVA`;
 }
 
 function renderProductCatalog() {
@@ -1072,8 +1087,10 @@ function renderProductCatalog() {
                     <h3>${product.name}</h3><p>${product.description}</p>
                     <span class="web-service-price">${product.priceLabel}</span>
                     <details class="product-options"><summary>QUÉ INCLUYE</summary><div class="product-options-content"><p>${product.features}</p></div></details>
-                    <a href="https://bridgeclaw.cl/" target="_blank" rel="noopener noreferrer" class="product-link">VER BRIDGECLAW →</a>
-                    <a href="https://wa.me/56952361343?text=${encodeURIComponent(webMessage)}" target="_blank" rel="noopener noreferrer" class="add-to-cart">COMPRAR / COTIZAR</a>
+                    <div class="product-card-actions">
+                        <a href="https://bridgeclaw.cl/" target="_blank" rel="noopener noreferrer" class="product-link">VER BRIDGECLAW →</a>
+                        <a href="https://wa.me/56952361343?text=${encodeURIComponent(webMessage)}" target="_blank" rel="noopener noreferrer" class="add-to-cart">COTIZAR POR WHATSAPP</a>
+                    </div>
                 </div>
             </article>`;
         }
@@ -1106,8 +1123,11 @@ function renderProductCatalog() {
                 <h3>${product.name}</h3><p>${product.description}</p>
                 <details class="product-options"><summary>VER PRECIOS Y OPCIONES</summary><div class="product-options-content">${variantField}${extras}<div class="calculated-price"></div></div></details>
                 <details class="product-options product-specifications"><summary>ESPECIFICACIONES TÉCNICAS</summary><div class="product-options-content"><p>${product.specs}</p></div></details>
-                <a href="cotizar.html?producto=${encodeURIComponent(product.name)}" class="product-link">COTIZAR →</a>
-                <button type="button" class="add-to-cart" data-product="${product.name}">AGREGAR AL CARRITO</button>
+                <p class="product-commercial-note">Valor sujeto a confirmación según diseño y terminaciones.</p>
+                <div class="product-card-actions">
+                    <a href="cotizar.html?producto=${encodeURIComponent(product.name)}" class="product-link">COTIZAR →</a>
+                    <button type="button" class="add-to-cart" data-product="${product.name}">AGREGAR AL CARRITO</button>
+                </div>
             </div>
         </article>`;
     }).join('');
@@ -1158,13 +1178,15 @@ function getProductSelection(card, product) {
         const unitPrice = units > 20 ? 3000 : 3500;
         const design = card.querySelector('.product-design-base');
         const designPrice = design?.checked && units < 6 ? 5000 : 0;
-        option = 'Credencial PVC'; presentationQty = `${units} unidades`; basePrice = units * unitPrice + designPrice;
+        option = 'Credencial PVC'; presentationQty = units === 1 ? '1 unidad' : `${units} unidades`; basePrice = units * unitPrice + designPrice;
     } else {
         const variant = card.querySelector('.product-variant');
         const quantity = card.querySelector('.product-pack-quantity');
         option = variant?.value || 'Estándar';
         const selectedQuantity = quantity?.value || '';
-        presentationQty = Number(selectedQuantity) === 1 ? '1 unidad' : `${selectedQuantity} unidades`;
+        const unitLabel = product.unitLabel || 'unidades';
+        const singularLabel = unitLabel === 'talonarios' ? 'talonario' : 'unidad';
+        presentationQty = Number(selectedQuantity) === 1 ? `1 ${singularLabel}` : `${selectedQuantity} ${unitLabel}`;
         basePrice = Number(quantity?.selectedOptions[0]?.dataset.price || 0);
     }
     const selectedExtras = [...card.querySelectorAll('.product-extra:checked')];
@@ -1189,7 +1211,14 @@ const cartItems = document.getElementById('cartItems');
 const cartCount = document.getElementById('cartCount');
 const checkoutWhatsapp = document.getElementById('checkoutWhatsapp');
 
+const CART_VERSION = '2026-09-commercial-v2';
 let cart = JSON.parse(localStorage.getItem('mediprintCart')) || [];
+
+if (localStorage.getItem('mediprintCartVersion') !== CART_VERSION) {
+    cart = [];
+    localStorage.setItem('mediprintCartVersion', CART_VERSION);
+    localStorage.removeItem('mediprintCart');
+}
 
 /* Compatibilidad con productos guardados antes de agregar las nuevas opciones */
 cart = cart.map(item => ({
@@ -1209,8 +1238,19 @@ function getCartTotalItems() {
 
 function updateCartCount() {
     if (cartCount) {
-        cartCount.textContent = getCartTotalItems();
+        const totalItems = getCartTotalItems();
+        cartCount.textContent = totalItems;
+        cartCount.classList.toggle('is-empty', totalItems === 0);
+        cartButton?.setAttribute('aria-label', totalItems === 0
+            ? 'Abrir carrito vacío'
+            : `Abrir carrito con ${totalItems} ${totalItems === 1 ? 'producto' : 'productos'}`);
     }
+}
+
+function getCartTotals() {
+    const net = cart.reduce((total, item) => total + (Number(item.price) || 0) * item.quantity, 0);
+    const iva = Math.round(net * 0.19);
+    return { net, iva, total: net + iva };
 }
 
 function openCart() {
@@ -1301,7 +1341,7 @@ function renderCart() {
         return;
     }
 
-    cartItems.innerHTML = cart.map(item => {
+    const itemsMarkup = cart.map(item => {
         const encodedKey = encodeURIComponent(item.key);
 
         return `
@@ -1320,7 +1360,7 @@ function renderCart() {
                         <span>${escapeHtml(item.option)}</span>
                         <small>${escapeHtml(item.presentationQty)}</small>
                         ${item.extras?.length ? `<small>Opcionales: ${escapeHtml(item.extras.join(', '))}</small>` : ''}
-                        ${item.price ? `<strong>${money(item.price)} + IVA</strong>` : ''}
+                        ${item.price ? `<small>Precio neto por pack: ${money(item.price)}</small><strong>Subtotal neto: ${money(item.price * item.quantity)}</strong>` : ''}
                     </div>
 
                 </div>
@@ -1357,6 +1397,15 @@ function renderCart() {
         `;
     }).join('');
 
+    const totals = getCartTotals();
+    cartItems.innerHTML = `${itemsMarkup}
+        <div class="cart-summary" aria-label="Resumen del pedido">
+            <div><span>Neto</span><strong>${money(totals.net)}</strong></div>
+            <div><span>IVA (19%)</span><strong>${money(totals.iva)}</strong></div>
+            <div class="cart-summary-total"><span>Total estimado</span><strong>${money(totals.total)}</strong></div>
+            <small>El despacho y los detalles finales del diseño se confirman por WhatsApp.</small>
+        </div>`;
+
     document.querySelectorAll('.quantity-btn').forEach(button => {
         button.addEventListener('click', () => {
             const amount = button.dataset.action === 'increase' ? 1 : -1;
@@ -1389,14 +1438,22 @@ function sendOrderToWhatsapp() {
   Opción: ${item.option}
   Cantidad: ${packsText}
   Opcionales: ${item.extras?.length ? item.extras.join(', ') : 'Ninguno'}
-  Precio neto: ${item.price ? `${money(item.price)} + IVA` : 'Por confirmar'}`;
+  Precio neto por pack: ${item.price ? money(item.price) : 'Por confirmar'}
+  Subtotal neto: ${item.price ? money(item.price * item.quantity) : 'Por confirmar'}`;
     }).join('\n\n');
+
+    const totals = getCartTotals();
 
     const message = `Hola MediPrint, quiero cotizar el siguiente pedido:
 
 ${orderLines}
 
-¿Me pueden indicar precio, opciones de diseño y despacho?`;
+Resumen estimado:
+Neto: ${money(totals.net)}
+IVA (19%): ${money(totals.iva)}
+Total con IVA: ${money(totals.total)}
+
+¿Me pueden confirmar diseño, terminaciones y valor del despacho?`;
 
     const whatsappNumber = '56926218660';
 
