@@ -1624,6 +1624,21 @@ img {
     }
 }
 
+/* Imagen del Pasaporte de Salud HappyClaws */
+.product-image img[src$="pasaporte-salud.png"] {
+    object-fit: contain;
+    object-position: center;
+    padding: 10px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #eff9ff 0%, #ffffff 100%);
+}
+
+@media (max-width: 768px) {
+    .product-image img[src$="pasaporte-salud.png"] {
+        padding: 8px;
+    }
+}
+
 /* ========================================
    AJUSTE RESPONSIVE FINAL DEL CARRUSEL
 ======================================== */
