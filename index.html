@@ -1020,9 +1020,9 @@ const productCatalog = [
         }
     },
     {
-        name: 'Pasaporte y Diario de Salud HappyClaws', image: 'images/pasaporte-salud.png', description: 'Pasaporte y diario de salud HappyClaws de 24 hojas.',
+        name: 'Pasaporte y Diario de Salud HappyClaws', image: 'images/pasaporte-salud.png', description: 'Pasaporte y diario de salud HappyClaws de 24 hojas.', packPricing: true,
         specs: '24 hojas.',
-        variants: { '24 hojas': [[1,12000],[5,55000],[12,139000],[20,230000]] }
+        variants: { '24 hojas': [[1,12000],[5,55000],[12,120000],[20,190000]] }
     },
     {
         name: 'Landing Page', category: 'web', webService: true,
@@ -1046,6 +1046,14 @@ const productCatalog = [
 
 function money(value) {
     return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(value);
+}
+
+function formatPriceOption(product, qty, price) {
+    if (product.packPricing) {
+        const packName = Number(qty) === 1 ? '1 unidad' : `Pack ${qty} unidades`;
+        return `${packName} — ${money(price)} total + IVA`;
+    }
+    return `${qty} x ${money(price)} + IVA`;
 }
 
 function renderProductCatalog() {
@@ -1084,7 +1092,7 @@ function renderProductCatalog() {
             </div>
             <div class="product-option-group">
                 <label>Cantidad y precio</label>
-                <select class="product-pack-quantity">${firstPrices.map(([qty, price]) => `<option value="${qty}" data-price="${price}">${qty} x ${money(price)} + IVA</option>`).join('')}</select>
+                <select class="product-pack-quantity">${firstPrices.map(([qty, price]) => `<option value="${qty}" data-price="${price}">${formatPriceOption(product, qty, price)}</option>`).join('')}</select>
             </div>`;
         const extras = product.extras ? `
             <div class="product-option-group product-extras" data-exclusive="${product.exclusive ? 'true' : 'false'}">
@@ -1115,7 +1123,7 @@ function renderProductCatalog() {
         const update = () => updateProductPrice(card, product);
 
         if (variant && quantity) variant.addEventListener('change', () => {
-            quantity.innerHTML = product.variants[variant.value].map(([qty, price]) => `<option value="${qty}" data-price="${price}">${qty} x ${money(price)} + IVA</option>`).join('');
+            quantity.innerHTML = product.variants[variant.value].map(([qty, price]) => `<option value="${qty}" data-price="${price}">${formatPriceOption(product, qty, price)}</option>`).join('');
             update();
         });
         if (quantity) quantity.addEventListener('change', update);
@@ -1154,7 +1162,9 @@ function getProductSelection(card, product) {
     } else {
         const variant = card.querySelector('.product-variant');
         const quantity = card.querySelector('.product-pack-quantity');
-        option = variant?.value || 'Estándar'; presentationQty = `${quantity?.value || ''} unidades`;
+        option = variant?.value || 'Estándar';
+        const selectedQuantity = quantity?.value || '';
+        presentationQty = Number(selectedQuantity) === 1 ? '1 unidad' : `${selectedQuantity} unidades`;
         basePrice = Number(quantity?.selectedOptions[0]?.dataset.price || 0);
     }
     const selectedExtras = [...card.querySelectorAll('.product-extra:checked')];
