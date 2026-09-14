@@ -976,6 +976,8 @@
 </svg>
 </a>
 
+<script src="js/supabase-config.js"></script>
+<script src="js/mediprint-supabase.js"></script>
 <script>
 function scrollProducts(direction) {
     const grid = document.querySelector('.product-grid');
@@ -995,8 +997,10 @@ function scrollProducts(direction) {
     });
 }
 
-/* Catálogo y precios indicados por MediPrint */
-const productCatalog = [
+/* Catálogo y precios indicados por MediPrint.
+   Es el respaldo local: si Supabase está configurado y responde,
+   se reemplaza por el catálogo administrado desde el panel. */
+let productCatalog = [
     {
         name: 'Recetarios Médicos', image: 'images/recetarios.jpeg', description: 'Recetarios personalizados para profesionales y centros de salud.', unitLabel: 'talonarios',
         specs: 'Papel bond 80 Gr. / respaldo dúplex 300 Gr. / full color.',
@@ -1100,6 +1104,33 @@ function formatPriceOption(product, qty, price) {
     return `${quantityLabel} — ${money(price)} total + IVA`;
 }
 
+/* Reglas de precio unitario (Credenciales PVC). Los valores por defecto
+   son los vigentes; el catálogo de Supabase puede traer otros. */
+const DEFAULT_UNIT_RULES = {
+    unitPrices: [{ up_to: 20, net_price: 3500 }, { up_to: null, net_price: 3000 }],
+    designFee: 5000,
+    designFreeFrom: 6
+};
+
+function getUnitRules(product) {
+    return product.pricingRules || DEFAULT_UNIT_RULES;
+}
+
+function getUnitPrice(rules, units) {
+    const tiers = [...rules.unitPrices].sort((a, b) => (a.up_to ?? Infinity) - (b.up_to ?? Infinity));
+    const tier = tiers.find(item => item.up_to == null || units <= item.up_to) || tiers[tiers.length - 1];
+    return Number(tier?.net_price) || 0;
+}
+
+function describeUnitRules(rules) {
+    const tiers = [...rules.unitPrices].sort((a, b) => (a.up_to ?? Infinity) - (b.up_to ?? Infinity));
+    return tiers.map((tier, i) => {
+        const price = money(tier.net_price).replace(/\s/g, '');
+        if (tier.up_to == null) return i === 0 ? `${price} c/u` : `${price} c/u sobre ${tiers[i - 1].up_to} unidades`;
+        return `${price} c/u hasta ${tier.up_to} unidades`;
+    }).join(' · ');
+}
+
 function renderProductCatalog() {
     const grid = document.querySelector('.product-grid');
     if (!grid) return;
@@ -1108,33 +1139,51 @@ function renderProductCatalog() {
     grid.innerHTML = productCatalog.map((product, index) => {
         const category = product.category || 'printed';
         if (category !== activeCategory) return '';
+        const name = escapeHtml(product.name);
+        const description = escapeHtml(product.description || '');
         if (product.webService) {
             const webMessage = `Hola BridgeClaw, vi el plan ${product.name} en MediPrint y quiero recibir más información.`;
+            const externalUrl = product.externalUrl || 'https://bridgeclaw.cl/';
+            const whatsappNumber = product.whatsappNumber || '56952361343';
             return `<article class="product-card web-service-card" data-catalog-index="${index}">
                 <div class="product-image"><div class="bridgeclaw-mark"><strong>BRIDGECLAW</strong><small>WEB &amp; DIGITAL STUDIO</small></div></div>
                 <div class="product-content">
-                    <h3>${product.name}</h3><p>${product.description}</p>
-                    <span class="web-service-price">${product.priceLabel}</span>
-                    <details class="product-options"><summary>QUÉ INCLUYE</summary><div class="product-options-content"><p>${product.features}</p></div></details>
+                    <h3>${name}</h3><p>${description}</p>
+                    <span class="web-service-price">${escapeHtml(product.priceLabel || '')}</span>
+                    <details class="product-options"><summary>QUÉ INCLUYE</summary><div class="product-options-content"><p>${escapeHtml(product.features || '')}</p></div></details>
                     <div class="product-card-actions">
-                        <a href="https://bridgeclaw.cl/" target="_blank" rel="noopener noreferrer" class="product-link">VER BRIDGECLAW →</a>
-                        <a href="https://wa.me/56952361343?text=${encodeURIComponent(webMessage)}" target="_blank" rel="noopener noreferrer" class="add-to-cart">COTIZAR POR WHATSAPP</a>
+                        <a href="${escapeHtml(externalUrl)}" target="_blank" rel="noopener noreferrer" class="product-link">VER BRIDGECLAW →</a>
+                        <a href="https://wa.me/${encodeURIComponent(whatsappNumber)}?text=${encodeURIComponent(webMessage)}" target="_blank" rel="noopener noreferrer" class="add-to-cart">COTIZAR POR WHATSAPP</a>
+                    </div>
+                </div>
+            </article>`;
+        }
+        if (product.quoteOnly) {
+            return `<article class="product-card" data-catalog-index="${index}">
+                <div class="product-image"><img src="${escapeHtml(product.image)}" alt="${name} MediPrint"></div>
+                <div class="product-content">
+                    <h3>${name}</h3><p>${description}</p>
+                    <span class="web-service-price">${escapeHtml(product.priceLabel || 'A cotizar')}</span>
+                    ${product.specs ? `<details class="product-options product-specifications"><summary>ESPECIFICACIONES TÉCNICAS</summary><div class="product-options-content"><p>${escapeHtml(product.specs)}</p></div></details>` : ''}
+                    <div class="product-card-actions">
+                        <a href="cotizar.html?producto=${encodeURIComponent(product.name)}" class="product-link">COTIZAR →</a>
                     </div>
                 </div>
             </article>`;
         }
         const variantNames = product.variants ? Object.keys(product.variants) : [];
         const firstPrices = variantNames.length ? product.variants[variantNames[0]] : [];
+        const unitRules = product.unitPricing ? getUnitRules(product) : null;
         const variantField = product.unitPricing ? `
             <div class="product-option-group">
                 <label>Cantidad</label>
                 <input class="product-unit-quantity" type="number" min="1" max="9999" value="1">
-                <small class="unit-price-note">$3.500 c/u hasta 20 unidades · $3.000 c/u sobre 20 unidades</small>
-                <label class="extra-choice"><input type="checkbox" class="product-design-base" checked> Diseño base $5.000 <small>(gratis desde 6 unidades)</small></label>
+                <small class="unit-price-note">${escapeHtml(describeUnitRules(unitRules))}</small>
+                ${unitRules.designFee ? `<label class="extra-choice"><input type="checkbox" class="product-design-base" checked> Diseño base ${money(unitRules.designFee).replace(/\s/g, '')} ${unitRules.designFreeFrom ? `<small>(gratis desde ${unitRules.designFreeFrom} unidades)</small>` : ''}</label>` : ''}
             </div>` : `
             <div class="product-option-group">
                 <label>Formato</label>
-                <select class="product-variant">${variantNames.map(name => `<option value="${name}">${name}</option>`).join('')}</select>
+                <select class="product-variant">${variantNames.map(variantName => `<option value="${escapeHtml(variantName)}">${escapeHtml(variantName)}</option>`).join('')}</select>
             </div>
             <div class="product-option-group">
                 <label>Cantidad y precio</label>
@@ -1143,19 +1192,21 @@ function renderProductCatalog() {
         const extras = product.extras ? `
             <div class="product-option-group product-extras" data-exclusive="${product.exclusive ? 'true' : 'false'}">
                 <span>Opcionales</span>
-                ${product.extras.map(([name, percent]) => `<label class="extra-choice"><input type="checkbox" class="product-extra" value="${name}" data-percent="${percent}"> ${name}${percent ? ` (+${percent}%)` : ''}</label>`).join('')}
+                ${product.extras.map(([extraName, percent]) => `<label class="extra-choice"><input type="checkbox" class="product-extra" value="${escapeHtml(extraName)}" data-percent="${Number(percent) || 0}"> ${escapeHtml(extraName)}${percent ? ` (+${Number(percent)}%)` : ''}</label>`).join('')}
             </div>` : '';
 
         return `<article class="product-card" data-catalog-index="${index}">
-            <div class="product-image"><img src="${product.image}" alt="${product.name} MediPrint"></div>
+            <div class="product-image"><img src="${escapeHtml(product.image)}" alt="${name} MediPrint"></div>
             <div class="product-content">
-                <h3>${product.name}</h3><p>${product.description}</p>
+                <h3>${name}</h3><p>${description}</p>
                 <details class="product-options"><summary>VER PRECIOS Y OPCIONES</summary><div class="product-options-content">${variantField}${extras}<div class="calculated-price"></div></div></details>
-                <details class="product-options product-specifications"><summary>ESPECIFICACIONES TÉCNICAS</summary><div class="product-options-content"><p>${product.specs}</p></div></details>
+                <details class="product-options product-specifications"><summary>ESPECIFICACIONES TÉCNICAS</summary><div class="product-options-content"><p>${escapeHtml(product.specs || '')}</p></div></details>
                 <p class="product-commercial-note">Valor sujeto a confirmación según diseño y terminaciones.</p>
                 <div class="product-card-actions">
                     <a href="cotizar.html?producto=${encodeURIComponent(product.name)}" class="product-link">COTIZAR →</a>
-                    <button type="button" class="add-to-cart" data-product="${product.name}">AGREGAR AL CARRITO</button>
+                    ${product.outOfStock
+                        ? '<button type="button" class="add-to-cart" disabled aria-disabled="true">AGOTADO</button>'
+                        : `<button type="button" class="add-to-cart" data-product="${name}">AGREGAR AL CARRITO</button>`}
                 </div>
             </div>
         </article>`;
@@ -1163,7 +1214,7 @@ function renderProductCatalog() {
 
     grid.querySelectorAll('.product-card').forEach(card => {
         const product = productCatalog[Number(card.dataset.catalogIndex)];
-        if (product.webService) return;
+        if (product.webService || product.quoteOnly) return;
         const variant = card.querySelector('.product-variant');
         const quantity = card.querySelector('.product-pack-quantity');
         const unitQuantity = card.querySelector('.product-unit-quantity');
@@ -1204,10 +1255,11 @@ function getProductSelection(card, product) {
     let option, presentationQty, basePrice;
     if (product.unitPricing) {
         const units = Math.max(1, Number(unitQuantity.value) || 1);
-        const unitPrice = units > 20 ? 3000 : 3500;
+        const rules = getUnitRules(product);
+        const unitPrice = getUnitPrice(rules, units);
         const design = card.querySelector('.product-design-base');
-        const designPrice = design?.checked && units < 6 ? 5000 : 0;
-        option = 'Credencial PVC'; presentationQty = units === 1 ? '1 unidad' : `${units} unidades`; basePrice = units * unitPrice + designPrice;
+        const designPrice = design?.checked && (!rules.designFreeFrom || units < rules.designFreeFrom) ? rules.designFee : 0;
+        option = product.unitOptionLabel || 'Credencial PVC'; presentationQty = units === 1 ? '1 unidad' : `${units} unidades`; basePrice = units * unitPrice + designPrice;
     } else {
         const variant = card.querySelector('.product-variant');
         const quantity = card.querySelector('.product-pack-quantity');
@@ -1231,6 +1283,23 @@ function updateProductPrice(card, product) {
 }
 
 renderProductCatalog();
+
+/* Catálogo administrado desde Supabase (si está configurado).
+   Solo se vuelve a pintar si trae datos distintos al respaldo local. */
+function catalogSignature(catalog) {
+    return JSON.stringify(catalog.map(product => [
+        product.category || 'printed', product.name, product.description || '', product.specs || '',
+        product.webService ? '' : (product.image || ''), product.variants || null, product.extras || null, Boolean(product.exclusive),
+        product.unitPricing ? getUnitRules(product) : null, Boolean(product.packPricing), product.unitLabel || 'unidades',
+        product.priceLabel || '', product.features || '', Boolean(product.quoteOnly), Boolean(product.outOfStock)
+    ]));
+}
+
+window.MediprintSupabase?.loadCatalog().then(remoteCatalog => {
+    if (!remoteCatalog || catalogSignature(remoteCatalog) === catalogSignature(productCatalog)) return;
+    productCatalog = remoteCatalog;
+    renderProductCatalog();
+});
 
 const cartButton = document.getElementById('cartButton');
 const cartPanel = document.getElementById('cartPanel');
@@ -1492,6 +1561,19 @@ Total con IVA: ${money(totals.total)}
         `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
         '_blank'
     );
+
+    /* Registro interno en segundo plano (no afecta el envío por WhatsApp) */
+    window.MediprintSupabase?.submitQuote({
+        source: 'carrito_web',
+        items: cart.map(item => ({
+            product_name: item.name,
+            option: item.option,
+            quantity_label: item.presentationQty,
+            extras: item.extras || [],
+            packs: item.quantity,
+            unit_net_price: Number(item.price) || 0
+        }))
+    });
 }
 
 document.addEventListener('click', event => {

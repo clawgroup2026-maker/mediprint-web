@@ -138,6 +138,14 @@
             transform: translateX(-3px);
         }
 
+        .form-trap {
+            position: absolute;
+            left: -10000px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
         @media (max-width: 600px) {
             .quote-container {
                 padding: 28px 22px;
@@ -252,6 +260,12 @@
                         placeholder="Cuéntanos medidas, colores, material, diseño o cualquier detalle importante."
                         required
                     ></textarea>
+                </div>
+
+                <!-- Campo trampa anti-spam: invisible para personas -->
+                <div class="form-trap" aria-hidden="true">
+                    <label for="website">No completar</label>
+                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
                 </div>
 
                 <button type="submit" class="quote-submit">
@@ -387,6 +401,8 @@
     </a>
 
 
+    <script src="js/supabase-config.js"></script>
+    <script src="js/mediprint-supabase.js"></script>
     <script>
         const quoteForm = document.getElementById('quoteForm');
 
@@ -427,6 +443,17 @@ ${description}`;
                 `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
                 '_blank'
             );
+
+            /* Registro interno en segundo plano (no afecta el envío por WhatsApp) */
+            window.MediprintSupabase?.submitQuote({
+                source: 'formulario_cotizacion',
+                website: document.getElementById('website').value,
+                contact: { name, company, phone, email },
+                product_summary: product,
+                requested_quantity: quantity,
+                required_date: date,
+                description
+            });
         });
     </script>
 
