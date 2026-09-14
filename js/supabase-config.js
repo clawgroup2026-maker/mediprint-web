@@ -13,6 +13,6 @@
 
 window.MEDIPRINT_SUPABASE = Object.freeze({
     projectName: 'mediprint-produccion',
-    url: '',
-    publishableKey: ''
+    url: 'https://zcdhbevolvetniglncyj.supabase.co',
+    publishableKey: 'sb_publishable_2p3Ks5wSn8sYDXDnV0NxPA_5tk0mfrI'
 });
