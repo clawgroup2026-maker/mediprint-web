@@ -1,5 +1,5 @@
 import { esc, run, money, emptyState, confirmDialog, toast, friendlyError } from '../ui.js';
-import { imageUrl } from '../supabase.js';
+import { imageUrl, IMAGE_BUCKET } from '../supabase.js';
 import { productDialog } from '../product-modal.js';
 import { stockBadge, stockDialog } from '../stock.js';
 
@@ -96,6 +96,7 @@ export async function render(ctx) {
                                 <button type="button" class="adm-btn adm-btn--primary adm-btn--sm" data-edit="${p.id}">Editar</button>
                                 <button type="button" class="adm-btn adm-btn--ghost adm-btn--sm" data-stock="${p.id}">Stock</button>
                                 <button type="button" class="adm-btn ${p.is_active ? 'adm-btn--danger-ghost' : 'adm-btn--ghost'} adm-btn--sm" data-toggle="${p.id}">${p.is_active ? 'Desactivar' : 'Activar'}</button>
+                                <button type="button" class="adm-btn adm-btn--danger-ghost adm-btn--sm" data-delete="${p.id}" aria-label="Eliminar ${esc(p.name)}">Eliminar</button>
                             </td>
                         </tr>`).join('')}
                     </tbody>
@@ -115,10 +116,30 @@ export async function render(ctx) {
         const edit = event.target.closest('[data-edit]');
         const stock = event.target.closest('[data-stock]');
         const toggle = event.target.closest('[data-toggle]');
+        const remove = event.target.closest('[data-delete]');
         if (edit) {
             if (await productDialog(sb, byId(edit.dataset.edit), categories)) reload();
         } else if (stock) {
             if (await stockDialog(sb, byId(stock.dataset.stock))) reload();
+        } else if (remove) {
+            const product = byId(remove.dataset.delete);
+            const ok = await confirmDialog({
+                title: 'Eliminar producto',
+                message: `¿Eliminar definitivamente "${product.name}" con sus formatos, precios, opcionales e imagen? No se puede deshacer. Si tiene pedidos o cotizaciones no se eliminará: en ese caso desactívalo.`,
+                confirmLabel: 'Eliminar',
+                danger: true
+            });
+            if (!ok) return;
+            remove.disabled = true;
+            try {
+                await run(sb.from('products').delete().eq('id', product.id));
+                if (product.image_path?.startsWith('products/')) await sb.storage.from(IMAGE_BUCKET).remove([product.image_path]);
+                toast(`Producto "${product.name}" eliminado.`);
+                reload();
+            } catch (error) {
+                remove.disabled = false;
+                toast(friendlyError(error), 'error');
+            }
         } else if (toggle) {
             const product = byId(toggle.dataset.toggle);
             const activate = !product.is_active;

@@ -5,7 +5,7 @@ export async function render(ctx) {
     const { sb, main, isCurrent, reload } = ctx;
     const [products, movements, profiles] = await Promise.all([
         run(sb.from('products').select('id, name, stock, track_stock, stock_status, low_stock_threshold, is_active, category:categories(name)').order('name')),
-        run(sb.from('inventory_movements').select('id, product_id, movement_type, quantity, reason, stock_before, stock_after, created_by, created_at, order:orders(id, order_number), product:products(name)').order('created_at', { ascending: false }).limit(60)),
+        run(sb.from('inventory_movements').select('id, product_id, product_name, movement_type, quantity, reason, stock_before, stock_after, created_by, created_at, order:orders(id, order_number), product:products(name)').order('created_at', { ascending: false }).limit(60)),
         run(sb.from('profiles').select('id, email, full_name'))
     ]);
     if (!isCurrent()) return;
@@ -60,7 +60,7 @@ export async function render(ctx) {
                     const delta = m.stock_after - m.stock_before;
                     return `<tr>
                         <td data-label="Fecha">${fmtDateTime(m.created_at)}</td>
-                        <td data-label="Producto">${esc(m.product?.name || '—')}</td>
+                        <td data-label="Producto">${esc(m.product?.name || (m.product_name ? `${m.product_name} (eliminado)` : '—'))}</td>
                         <td data-label="Tipo">${badge(m.movement_type, LABELS.movementType)}</td>
                         <td data-label="Cantidad"><strong class="${delta < 0 ? 'adm-text-danger' : 'adm-text-ok'}">${delta > 0 ? '+' : ''}${delta}</strong></td>
                         <td data-label="Stock">${m.stock_before} → ${m.stock_after}</td>

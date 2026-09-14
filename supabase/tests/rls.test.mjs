@@ -232,6 +232,14 @@ await expectOk('producto sin historial se puede eliminar', async () => {
     const tmp = await as('authenticated', ADMIN, `insert into public.products (category_id, name, slug) select id,'Temporal','temporal' from public.categories limit 1 returning id`);
     await as('authenticated', ADMIN, `delete from public.products where id=$1`, [tmp[0].id]);
 });
+await expectVal('producto solo con movimientos de stock se elimina y conserva historial', async () => {
+    const tmp = await as('authenticated', ADMIN, `insert into public.products (category_id, name, slug, base_net_price, pricing_mode) select id,'Prueba stock','prueba-stock', 1000, 'unit' from public.categories limit 1 returning id`);
+    await as('authenticated', ADMIN, `insert into public.inventory_movements (product_id, movement_type, quantity, reason) values ($1,'entrada',5,'Prueba')`, [tmp[0].id]);
+    await as('authenticated', ADMIN, `delete from public.products where id=$1`, [tmp[0].id]);
+    return pg(`select (select count(*) from public.products where id=$1)::int p, (select json_agg(json_build_object('pid', product_id, 'name', product_name)) from public.inventory_movements where reason='Prueba') m`, [tmp[0].id]);
+}, r => r[0].p === 0 && r[0].m.length === 1 && r[0].m[0].pid === null && r[0].m[0].name === 'Prueba stock');
+await expectVal('movimientos nuevos guardan nombre del producto', () => pg(`select count(*)::int n from public.inventory_movements where product_id is not null and product_name is null`), r => r[0].n === 0);
+await expectVal('usuario no admin no elimina productos (0 filas)', () => as('authenticated', USER, `delete from public.products returning id`), r => r.length === 0);
 await expectErr('producto con pedidos no se elimina (se desactiva)', async () => {
     const withHistory = await pg(`select product_id from public.quote_request_items where product_id is not null limit 1`);
     await as('authenticated', ADMIN, `delete from public.products where id=$1`, [withHistory[0].product_id]);

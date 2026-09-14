@@ -216,7 +216,7 @@ export async function render(ctx) {
                     ${imageSection(product)}
                     <section class="adm-card adm-card--danger">
                         <h2>Eliminar producto</h2>
-                        <p class="adm-hint">Si tiene movimientos de inventario no podrá eliminarse; desactívalo en su lugar. Los pedidos antiguos conservan su descripción.</p>
+                        <p class="adm-hint">Si tiene pedidos o cotizaciones no podrá eliminarse; desactívalo en su lugar. El historial de stock se conserva.</p>
                         <button type="button" class="adm-btn adm-btn--danger adm-btn--sm" id="deleteProduct">Eliminar producto</button>
                     </section>
                 </div>` : '<p class="adm-hint">Guarda el producto para agregar formatos, tramos, opcionales e imagen.</p>'}

@@ -83,6 +83,7 @@ export function friendlyError(error) {
     const code = error.code || '';
     const message = error.message || String(error);
     if (code === '23505') return 'Ya existe un registro con ese valor (nombre, slug, SKU, RUT o cantidad duplicada).';
+    if (code === '23503' && /desactívalo/.test(message)) return 'Este producto tiene pedidos o cotizaciones asociados, por eso no se puede eliminar. Desactívalo para ocultarlo de la tienda.';
     if (code === '23503') return 'No se puede completar: hay registros relacionados (por ejemplo pedidos o movimientos). Considera desactivarlo.';
     if (code === '23514') return /Stock insuficiente/.test(message) ? message : 'Algún dato no cumple las validaciones (formato, rango o valor permitido).';
     if (code === '42501' || /permission denied|row-level security/i.test(message)) return 'No tienes permisos para esta acción.';
