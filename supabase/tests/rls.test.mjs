@@ -63,6 +63,28 @@ async function as(role, sub, sql, params) {
 }
 const pg = (sql, p) => db.query(sql, p).then(r => r.rows);
 
+console.log('\nFidelidad del catálogo (precios idénticos a index.html)');
+{
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const localCatalog = eval(html.match(/let productCatalog = (\[[\s\S]*?\n\]);/)[1]);
+  const dbRows = await pg(`select p.name, p.description, p.specs, p.image_path, p.pricing_mode, p.price_label,
+      coalesce((select json_object_agg(v.name, (select json_agg(json_build_array(t.quantity, t.net_price) order by t.quantity) from public.product_price_tiers t where t.variant_id = v.id) order by v.sort_order) from public.product_variants v where v.product_id = p.id), '{}') as variants,
+      coalesce((select json_agg(json_build_array(e.name, e.surcharge_percent::float) order by e.sort_order) from public.product_extras e where e.product_id = p.id), '[]') as extras
+    from public.products p order by p.sort_order`);
+  await expectVal('mismos 12 productos en el mismo orden', async () => dbRows.map(r => r.name), names => JSON.stringify(names) === JSON.stringify(localCatalog.map(p => p.name)));
+  for (const local of localCatalog) {
+    const row = dbRows.find(r => r.name === local.name);
+    const same = row
+      && (local.description || null) === row.description && (local.specs || null) === row.specs
+      && JSON.stringify(local.variants || {}) === JSON.stringify(row.variants)
+      && JSON.stringify(local.extras || []) === JSON.stringify(row.extras)
+      && (local.priceLabel || null) === row.price_label
+      && (local.image || null) === row.image_path;
+    if (same) ok(`${local.name}: precios, formatos y opcionales idénticos`);
+    else bad(`${local.name}: difiere de index.html`, JSON.stringify({ local: [local.variants, local.extras], db: [row?.variants, row?.extras] }).slice(0, 300));
+  }
+}
+
 console.log('\nPerfiles y rol admin');
 await expectVal('perfiles creados con rol user aunque metadata diga admin', () => pg(`select role from public.profiles order by email`), r => r.length === 2 && r.every(x => x.role === 'user'));
 await expectVal('catálogo seed: 12 productos, 2 categorías', () => pg(`select (select count(*) from public.products)::int p, (select count(*) from public.categories)::int c`), r => r[0].p === 12 && r[0].c === 2);
@@ -214,6 +236,35 @@ await expectErr('producto con pedidos no se elimina (se desactiva)', async () =>
     const withHistory = await pg(`select product_id from public.quote_request_items where product_id is not null limit 1`);
     await as('authenticated', ADMIN, `delete from public.products where id=$1`, [withHistory[0].product_id]);
 }, /desactívalo/);
+
+console.log('\nReejecutar migraciones no toca productos ni precios existentes');
+{
+  const snapshot = () => pg(`select
+      (select json_agg(row_to_json(p) order by p.id) from (select id, name, slug, description, base_net_price, pricing_rules, is_active, image_path from public.products) p) products,
+      (select json_agg(row_to_json(t) order by t.id) from (select id, quantity, net_price from public.product_price_tiers) t) tiers,
+      (select json_agg(row_to_json(e) order by e.id) from (select id, name, surcharge_percent from public.product_extras) e) extras,
+      (select count(*) from public.product_variants)::int variants`);
+  await pg(`update public.product_price_tiers set net_price = 12345 where quantity = 10 and variant_id = (select v.id from public.product_variants v join public.products p on p.id = v.product_id where p.slug = 'recetarios-medicos' limit 1)`);
+  const before = JSON.stringify(await snapshot());
+  for (const f of files) await db.exec(fs.readFileSync(path.join(MIG, f), 'utf8'));
+  const after = JSON.stringify(await snapshot());
+  await expectVal('catálogo idéntico tras reejecutar todas las migraciones (incl. precio editado)', async () => before === after && after.includes('12345'), v => v);
+}
+{
+  // Proyecto con catálogo propio previo: el seed no inserta nada
+  const fresh = new PGlite();
+  await fresh.exec(`create role anon nologin; create role authenticated nologin; create schema auth;
+    create table auth.users (id uuid primary key, email text, raw_user_meta_data jsonb);
+    create function auth.uid() returns uuid language sql as $$ select null::uuid $$;
+    create schema storage; create table storage.buckets (id text primary key, name text, public boolean, file_size_limit bigint, allowed_mime_types text[]);
+    create table storage.objects (id uuid primary key default gen_random_uuid(), bucket_id text, name text); alter table storage.objects enable row level security;`);
+  for (const f of files.filter(f => !f.includes('seed'))) await fresh.exec(fs.readFileSync(path.join(MIG, f), 'utf8'));
+  await fresh.exec(`insert into public.categories (name, slug) values ('Mía', 'productos-impresos');
+    insert into public.products (category_id, name, slug, base_net_price) select id, 'Talonarios', 'talonarios', 9990 from public.categories;`);
+  await fresh.exec(fs.readFileSync(path.join(MIG, files.find(f => f.includes('seed'))), 'utf8'));
+  await expectVal('catálogo previo existente: seed no agrega ni cambia nada', () => fresh.query(`select (select count(*) from public.products)::int p, (select count(*) from public.product_variants)::int v, (select base_net_price from public.products where slug='talonarios') price, (select name from public.categories) cat`).then(r => r.rows[0]),
+    r => r.p === 1 && r.v === 0 && r.price === 9990 && r.cat === 'Mía');
+}
 
 console.log('\nAuditoría de grants/RLS');
 await expectVal('RLS activo en todas las tablas de public', () => pg(`select relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r' and not c.relrowsecurity`), r => r.length === 0);

@@ -32,14 +32,14 @@ Supabase
 | `…120300_inventario` | `inventory_movements` inmutables; stock nunca negativo |
 | `…120400_rpc_solicitud_publica` | `submit_quote_request`: validación, recálculo de montos, límite por IP, campo trampa |
 | `…120500_storage_imagenes_productos` | Bucket `product-images` (5 MB, JPG/PNG/WebP/AVIF) + políticas |
-| `…120600_seed_catalogo_actual` | Carga el catálogo y precios actuales de la web (no sobrescribe cambios) |
+| `…120600_seed_catalogo_actual` | Copia exacta del catálogo y precios actuales de la web. Solo se ejecuta si el catálogo está vacío; nunca modifica productos ni precios existentes |
 
 Todas son idempotentes (se pueden re-ejecutar).
 
 ## Pruebas
 
 ```bash
-cd supabase/tests && npm install && npm test      # local: migraciones + RLS + triggers (116 casos)
+cd supabase/tests && npm install && npm test      # local: migraciones + RLS + triggers (131 casos, incluye fidelidad de precios con index.html)
 node supabase/tests/remote-anon.test.mjs           # remoto: permisos anónimos vía API pública
 ```
 
