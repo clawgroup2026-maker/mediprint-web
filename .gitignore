@@ -1,0 +1,26 @@
+# Secretos y entornos locales
+.env
+.env.*
+!.env.example
+.dev.vars
+*.pem
+*.key
+
+# Dependencias y artefactos
+node_modules/
+.wrangler/
+supabase/.temp/
+supabase/.branches/
+
+# Backups / temporales
+*.bak
+*.backup
+*.dump
+*.sql.gz
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Configuración local de herramientas
+.claude/
